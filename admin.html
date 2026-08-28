@@ -47,7 +47,7 @@
         </div>
         <div>
           <p class="text-xs font-bold text-slate-500 uppercase">Menunggu ACC</p>
-          <h4 class="text-2xl font-black text-slate-800">3 <span class="text-sm font-medium text-slate-400">Antrean</span></h4>
+          <h4 id="stat-pending-count" class="text-2xl font-black text-slate-800">0 <span class="text-sm font-medium text-slate-400">Antrean</span></h4>
         </div>
       </div>
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
@@ -56,7 +56,7 @@
         </div>
         <div>
           <p class="text-xs font-bold text-slate-500 uppercase">Total Akun Aktif</p>
-          <h4 class="text-2xl font-black text-slate-800">142 <span class="text-sm font-medium text-slate-400">Pelanggan</span></h4>
+          <h4 id="stat-active-count" class="text-2xl font-black text-slate-800">0 <span class="text-sm font-medium text-slate-400">Pelanggan</span></h4>
         </div>
       </div>
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 relative">
@@ -110,7 +110,7 @@
       <!-- Tab Navigasi -->
       <div class="flex border-b border-slate-200 bg-slate-50 overflow-x-auto no-scrollbar">
         <button id="tab-antrean" onclick="switchTab('antrean')" class="px-6 py-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600 bg-white flex items-center gap-2 transition-all whitespace-nowrap">
-          <i data-lucide="inbox" class="w-4 h-4"></i> Antrean Validasi <span class="bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full">3</span>
+          <i data-lucide="inbox" class="w-4 h-4"></i> Antrean Validasi <span id="badge-antrean" class="bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span>
         </button>
         <button id="tab-database" onclick="switchTab('database')" class="px-6 py-4 text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:bg-slate-100 transition-all flex items-center gap-2 whitespace-nowrap">
           <i data-lucide="database" class="w-4 h-4"></i> Database Aktif
@@ -132,63 +132,8 @@
               <th scope="col" class="px-6 py-4 font-bold text-center">Aksi (Validasi)</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
-            
-            <tr class="hover:bg-slate-50 transition">
-              <td class="px-6 py-4 whitespace-nowrap text-xs">Hari ini, 10:45</td>
-              <td class="px-6 py-4">
-                <div class="font-bold text-slate-800 flex items-center gap-2">
-                  <i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> budi.santoso@gmail.com
-                </div>
-                <!-- Tombol Chat WA Baru -->
-                <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-bold border border-emerald-200 transition">
-                  <i data-lucide="phone" class="w-3 h-3"></i> 081234567890
-                </a>
-              </td>
-              <td class="px-6 py-4">
-                <span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-full text-[11px] border border-blue-100">1 BULAN</span>
-              </td>
-              <td class="px-6 py-4">
-                <span class="font-mono font-bold text-slate-700">GEM1-X9A2</span>
-              </td>
-              <td class="px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2">
-                <button onclick="openAccModal(this, 'budi.santoso@gmail.com', '1 BULAN')" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
-                  <i data-lucide="check" class="w-4 h-4"></i> ACC
-                </button>
-                <button onclick="rejectAction(this)" class="w-full sm:w-auto bg-rose-50 hover:bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 border border-rose-200">
-                  <i data-lucide="x" class="w-4 h-4"></i> Tolak
-                </button>
-              </td>
-            </tr>
-
-            <tr class="hover:bg-slate-50 transition bg-rose-50/30">
-              <td class="px-6 py-4 whitespace-nowrap text-xs">Hari ini, 10:30</td>
-              <td class="px-6 py-4">
-                <div class="font-bold text-slate-800 flex items-center gap-2">
-                  <i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> m.arif@gmail.com
-                </div>
-                <!-- Tombol Chat WA Baru -->
-                <a href="https://wa.me/6285711223344" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-bold border border-emerald-200 transition">
-                  <i data-lucide="phone" class="w-3 h-3"></i> 085711223344
-                </a>
-              </td>
-              <td class="px-6 py-4">
-                <span class="bg-purple-50 text-purple-600 font-bold px-3 py-1 rounded-full text-[11px] border border-purple-100">18 BULAN</span>
-              </td>
-              <td class="px-6 py-4">
-                <span class="font-mono font-bold text-rose-600 flex items-center gap-1"><i data-lucide="alert-triangle" class="w-3 h-3"></i> GEM1-B4Z9</span>
-                <p class="text-[9px] text-rose-500 mt-0.5">Peringatan: PIN ini untuk 1 Bulan!</p>
-              </td>
-              <td class="px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2">
-                <button class="w-full sm:w-auto bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1 shadow-sm opacity-50 cursor-not-allowed">
-                  <i data-lucide="check" class="w-4 h-4"></i> ACC
-                </button>
-                <button onclick="rejectAction(this)" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
-                  <i data-lucide="x" class="w-4 h-4"></i> Tolak
-                </button>
-              </td>
-            </tr>
-
+          <tbody id="table-antrean-body" class="divide-y divide-slate-100">
+            <!-- Data Antrean akan dimuat otomatis via Javascript -->
           </tbody>
         </table>
         <div class="bg-slate-50 border-t border-slate-200 p-4 text-xs text-slate-500 text-center font-medium">
@@ -208,65 +153,8 @@
               <th scope="col" class="px-6 py-4 font-bold text-center">Kelola</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100">
-            
-            <tr class="hover:bg-slate-50 transition">
-              <td class="px-6 py-4">
-                <div class="font-bold text-slate-800 flex items-center gap-2">
-                  <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> siska.amelia@gmail.com
-                </div>
-                <!-- Tombol Chat WA di Database -->
-                <a href="https://wa.me/6289988776655" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-500 text-[10px] font-bold border border-slate-200 hover:border-emerald-200 transition">
-                  <i data-lucide="phone" class="w-3 h-3"></i> 089988776655
-                </a>
-              </td>
-              <td class="px-6 py-4">
-                <p class="text-xs font-bold text-slate-700">6 Bulan</p>
-                <p class="text-[10px] text-amber-500 font-bold mt-0.5">⏳ Sisa 45 Hari</p>
-              </td>
-              <td class="px-6 py-4 bg-blue-50/30">
-                <span class="text-xs font-bold text-blue-700 border border-blue-200 bg-blue-50 px-2 py-1 rounded-md">head01.rizqina@gmail.com</span>
-              </td>
-              <td class="px-6 py-4">
-                <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded-md text-[10px] flex items-center gap-1 w-max">
-                  <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Aktif
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <button onclick="alert('Invite dibatalkan dari Head Account!')" class="text-rose-500 hover:text-rose-700 text-xs font-bold transition flex items-center justify-center gap-1 mx-auto">
-                  <i data-lucide="user-x" class="w-4 h-4"></i> Cabut Akses
-                </button>
-              </td>
-            </tr>
-
-            <tr class="hover:bg-slate-50 transition">
-              <td class="px-6 py-4">
-                <div class="font-bold text-slate-800 flex items-center gap-2">
-                  <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> dendi.putra@gmail.com
-                </div>
-                <a href="https://wa.me/6281122334455" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-500 text-[10px] font-bold border border-slate-200 hover:border-emerald-200 transition">
-                  <i data-lucide="phone" class="w-3 h-3"></i> 081122334455
-                </a>
-              </td>
-              <td class="px-6 py-4">
-                <p class="text-xs font-bold text-slate-700">18 Bulan</p>
-                <p class="text-[10px] text-emerald-500 font-bold mt-0.5">Sisa 520 Hari</p>
-              </td>
-              <td class="px-6 py-4 bg-blue-50/30">
-                <span class="text-xs font-bold text-blue-700 border border-blue-200 bg-blue-50 px-2 py-1 rounded-md">head03.rizqina@gmail.com</span>
-              </td>
-              <td class="px-6 py-4">
-                <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded-md text-[10px] flex items-center gap-1 w-max">
-                  <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Aktif
-                </span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <button class="text-rose-500 hover:text-rose-700 text-xs font-bold transition flex items-center justify-center gap-1 mx-auto">
-                  <i data-lucide="user-x" class="w-4 h-4"></i> Cabut Akses
-                </button>
-              </td>
-            </tr>
-
+          <tbody id="table-database-body" class="divide-y divide-slate-100">
+            <!-- Data Aktif akan dimuat otomatis via Javascript -->
           </tbody>
         </table>
         <div class="bg-slate-50 border-t border-slate-200 p-4 text-xs text-slate-500 text-center font-medium">
@@ -287,8 +175,8 @@
                 </button>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Head Account Card -->
+            <div id="head-accounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Head Account Card Statis / Contoh -->
                 <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm flex flex-col gap-3">
                     <div class="flex justify-between items-start">
                         <div class="flex items-center gap-2">
@@ -304,62 +192,13 @@
                     <div>
                         <div class="flex justify-between text-xs mb-1">
                             <span class="font-medium text-slate-500">Kapasitas (Slot)</span>
-                            <span class="font-bold text-slate-700">2 / 5 Terisi</span>
+                            <span class="font-bold text-slate-700">0 / 5 Terisi</span>
                         </div>
                         <div class="w-full bg-slate-100 rounded-full h-2">
-                            <div class="bg-blue-500 h-2 rounded-full" style="width: 40%"></div>
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Head Account Card 2 -->
-                <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
-                                <i data-lucide="user" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-sm text-slate-800">head02.rizqina@gmail.com</p>
-                                <p class="text-[10px] text-emerald-500 font-bold">Status: Aktif</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="font-medium text-slate-500">Kapasitas (Slot)</span>
-                            <span class="font-bold text-slate-700">4 / 5 Terisi</span>
-                        </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2">
-                            <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Head Account Card 3 (Penuh) -->
-                <div class="border border-rose-200 rounded-xl p-4 bg-rose-50/30 shadow-sm flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center">
-                                <i data-lucide="user" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-sm text-slate-800">head04.rizqina@gmail.com</p>
-                                <p class="text-[10px] text-rose-500 font-bold">Status: Penuh</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="font-medium text-slate-500">Kapasitas (Slot)</span>
-                            <span class="font-bold text-rose-600">5 / 5 Terisi</span>
-                        </div>
-                        <div class="w-full bg-slate-200 rounded-full h-2">
-                            <div class="bg-rose-500 h-2 rounded-full" style="width: 100%"></div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
       </div>
@@ -381,14 +220,14 @@
         <label class="text-xs font-bold text-slate-700 block">Email Akun Head:</label>
         <div class="relative">
           <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-4 top-3.5"></i>
-          <input type="email" placeholder="contoh: headbaru@gmail.com" class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-medium" />
+          <input type="email" id="new-head-email" placeholder="contoh: headbaru@gmail.com" class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-medium" />
         </div>
         <p class="text-[10px] text-slate-500">Setiap akun Head memiliki kapasitas maksimal 5 slot undangan family.</p>
       </div>
 
       <div class="flex gap-3 pt-2">
         <button onclick="document.getElementById('modal-add-head').classList.add('hidden')" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition">Batal</button>
-        <button onclick="alert('Email Head berhasil ditambahkan!'); document.getElementById('modal-add-head').classList.add('hidden')" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-200 transition">
+        <button onclick="addHeadAccount()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-200 transition">
           Simpan Akun
         </button>
       </div>
@@ -421,10 +260,7 @@
           <i data-lucide="users" class="w-4 h-4 text-slate-400 absolute left-4 top-3.5"></i>
           <select id="select-head-account" class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-bold appearance-none cursor-pointer shadow-sm">
             <option value="" disabled selected>-- Pilih Akun Head Gemini --</option>
-            <option value="head01.rizqina@gmail.com">head01.rizqina@gmail.com (Slot: 2/5)</option>
-            <option value="head02.rizqina@gmail.com">head02.rizqina@gmail.com (Slot: 4/5)</option>
-            <option value="head03.rizqina@gmail.com">head03.rizqina@gmail.com (Slot: 1/5)</option>
-            <option value="head04.rizqina@gmail.com">head04.rizqina@gmail.com (Slot: 5/5) - PENUH</option>
+            <option value="head01.rizqina@gmail.com">head01.rizqina@gmail.com (Slot: 0/5)</option>
           </select>
           <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-4 top-3.5 pointer-events-none"></i>
         </div>
@@ -442,14 +278,124 @@
   </div>
 
   <script>
-    // Logika Tab Switching (Ditambah Tab Head Accounts)
+    // URL API Worker Asli Milik Kakak
+    const API_URL = "https://gemini-api-rizqina.rizqinastore97.workers.dev";
+
+    // Data Sementara untuk Head Accounts & Antrean
+    let headAccounts = JSON.parse(localStorage.getItem('rizqina_heads')) || [
+      { email: "head01.rizqina@gmail.com", activeCount: 0 }
+    ];
+    let currentEmailToApprove = null;
+    let currentDurationToApprove = 0;
+
+    window.onload = function() {
+      fetchAdminData();
+      renderHeadAccounts();
+    };
+
+    // Ambil Data dari Worker/Database
+    async function fetchAdminData() {
+      try {
+        const response = await fetch(`${API_URL}/api/gemini/admin/data`);
+        const result = await response.json();
+
+        if (result.success) {
+          renderAntrean(result.pendingList || []);
+          renderDatabase(result.activeList || []);
+          
+          document.getElementById('stat-pending-count').innerHTML = `${(result.pendingList || []).length} <span class="text-sm font-medium text-slate-400">Antrean</span>`;
+          document.getElementById('badge-antrean').innerText = (result.pendingList || []).length;
+          document.getElementById('stat-active-count').innerHTML = `${(result.activeList || []).length} <span class="text-sm font-medium text-slate-400">Pelanggan</span>`;
+        }
+      } catch (e) {
+        console.log("Gagal memuat data admin real-time, menggunakan mode kosong.");
+      }
+    }
+
+    // Render Tabel Antrean
+    function renderAntrean(list) {
+      const tbody = document.getElementById('table-antrean-body');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Tidak ada antrean validasi saat ini.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(item => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="px-6 py-4 whitespace-nowrap text-xs">${new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+          <td class="px-6 py-4">
+            <div class="font-bold text-slate-800 flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> ${item.email}
+            </div>
+            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-bold border border-emerald-200 transition">
+              <i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}
+            </a>
+          </td>
+          <td class="px-6 py-4">
+            <span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-full text-[11px] border border-blue-100">${item.durationMonths} BULAN</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="font-mono font-bold text-slate-700">${item.pin}</span>
+          </td>
+          <td class="px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2">
+            <button onclick="openAccModal('${item.email}', ${item.durationMonths})" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
+              <i data-lucide="check" class="w-4 h-4"></i> ACC
+            </button>
+            <button onclick="rejectAction('${item.email}')" class="w-full sm:w-auto bg-rose-50 hover:bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 border border-rose-200">
+              <i data-lucide="x" class="w-4 h-4"></i> Tolak
+            </button>
+          </td>
+        </tr>
+      `).join('');
+      if(typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Render Tabel Database Aktif
+    function renderDatabase(list) {
+      const tbody = document.getElementById('table-database-body');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Belum ada pelanggan aktif.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(item => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="px-6 py-4">
+            <div class="font-bold text-slate-800 flex items-center gap-2">
+              <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> ${item.email}
+            </div>
+            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-500 text-[10px] font-bold border border-slate-200 hover:border-emerald-200 transition">
+              <i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}
+            </a>
+          </td>
+          <td class="px-6 py-4">
+            <p class="text-xs font-bold text-slate-700">${item.durationMonths} Bulan</p>
+            <p class="text-[10px] text-emerald-500 font-bold mt-0.5">Sisa ${item.sisaHari} Hari</p>
+          </td>
+          <td class="px-6 py-4 bg-blue-50/30">
+            <span class="text-xs font-bold text-blue-700 border border-blue-200 bg-blue-50 px-2 py-1 rounded-md">${item.headAccount}</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded-md text-[10px] flex items-center gap-1 w-max">
+              <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Aktif
+            </span>
+          </td>
+          <td class="px-6 py-4 text-center">
+            <button onclick="revocationAction('${item.email}')" class="text-rose-500 hover:text-rose-700 text-xs font-bold transition flex items-center justify-center gap-1 mx-auto">
+              <i data-lucide="user-x" class="w-4 h-4"></i> Cabut Akses
+            </button>
+          </td>
+        </tr>
+      `).join('');
+      if(typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Tab Switching
     function switchTab(tabName) {
       const tabs = ['antrean', 'database', 'head-accounts'];
-      
       tabs.forEach(tab => {
           const btn = document.getElementById('tab-' + tab);
           const sec = document.getElementById('section-' + tab);
-          
           if (tab === tabName) {
               btn.classList.add('text-blue-600', 'border-blue-600', 'bg-white');
               btn.classList.remove('text-slate-500', 'border-transparent', 'hover:bg-slate-100');
@@ -462,20 +408,146 @@
       });
     }
 
-    // Generate PIN Unik
+    // Modal ACC
+    function openAccModal(email, duration) {
+      currentEmailToApprove = email;
+      currentDurationToApprove = duration;
+      document.getElementById('modal-target-email').innerText = email;
+      document.getElementById('modal-target-paket').innerText = "Paket: " + duration + " Bulan";
+      
+      const select = document.getElementById('select-head-account');
+      select.innerHTML = headAccounts.map(h => `
+        <option value="${h.email}" ${h.activeCount >= 5 ? 'disabled' : ''}>
+          ${h.email} (Slot: ${h.activeCount}/5) ${h.activeCount >= 5 ? '- PENUH' : ''}
+        </option>
+      `).join('');
+
+      document.getElementById('modal-select-head').classList.remove('hidden');
+    }
+
+    function closeAccModal() {
+      document.getElementById('modal-select-head').classList.add('hidden');
+    }
+
+    async function confirmAcc() {
+      const selectedHead = document.getElementById('select-head-account').value;
+      if (!selectedHead) {
+        alert("Pilih akun Head terlebih dahulu!");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/api/gemini/admin/approve`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: currentEmailToApprove, headAccount: selectedHead })
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          // Update slot head lokal
+          const head = headAccounts.find(h => h.email === selectedHead);
+          if (head) head.activeCount++;
+          localStorage.setItem('rizqina_heads', JSON.stringify(headAccounts));
+
+          alert("Berhasil di-ACC!");
+          closeAccModal();
+          fetchAdminData();
+          renderHeadAccounts();
+        } else {
+          alert(result.message || "Gagal meng-ACC.");
+        }
+      } catch (e) {
+        alert("Terjadi kesalahan koneksi server.");
+      }
+    }
+
+    async function rejectAction(email) {
+      if(confirm('Tolak permintaan aktivasi ini?')) {
+        try {
+          await fetch(`${API_URL}/api/gemini/admin/reject`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+          });
+          fetchAdminData();
+        } catch (e) {
+          alert("Gagal menolak permintaan.");
+        }
+      }
+    }
+
+    async function revocationAction(email) {
+      if(confirm('Cabut akses pelanggan ini?')) {
+        try {
+          await fetch(`${API_URL}/api/gemini/admin/revoke`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+          });
+          fetchAdminData();
+        } catch (e) {
+          alert("Gagal mencabut akses.");
+        }
+      }
+    }
+
+    // Manajemen Head Account
+    function renderHeadAccounts() {
+      const grid = document.getElementById('head-accounts-grid');
+      grid.innerHTML = headAccounts.map(h => `
+        <div class="border ${h.activeCount >= 5 ? 'border-rose-200 bg-rose-50/30' : 'border-slate-200 bg-white'} rounded-xl p-4 shadow-sm flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full ${h.activeCount >= 5 ? 'bg-rose-100 text-rose-600' : 'bg-blue-100 text-blue-600'} flex items-center justify-center">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-slate-800">${h.email}</p>
+                        <p class="text-[10px] ${h.activeCount >= 5 ? 'text-rose-500 font-bold' : 'text-emerald-500 font-bold'}">${h.activeCount >= 5 ? 'Status: Penuh' : 'Status: Aktif'}</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="font-medium text-slate-500">Kapasitas (Slot)</span>
+                    <span class="font-bold ${h.activeCount >= 5 ? 'text-rose-600' : 'text-slate-700'}">${h.activeCount} / 5 Terisi</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div class="${h.activeCount >= 5 ? 'bg-rose-500' : 'bg-blue-500'} h-2 rounded-full" style="width: ${(h.activeCount / 5) * 100}%"></div>
+                </div>
+            </div>
+        </div>
+      `).join('');
+      if(typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function addHeadAccount() {
+      const email = document.getElementById('new-head-email').value.trim();
+      if (!email || !email.includes('@')) {
+        alert("Masukkan email Head yang valid!");
+        return;
+      }
+      headAccounts.push({ email, activeCount: 0 });
+      localStorage.setItem('rizqina_heads', JSON.stringify(headAccounts));
+      document.getElementById('new-head-email').value = "";
+      document.getElementById('modal-add-head').classList.add('hidden');
+      renderHeadAccounts();
+      alert("Akun Head berhasil ditambahkan!");
+    }
+
+    // Generate PIN
     function generatePin() {
         const durationSelect = document.getElementById('pin-duration');
         const duration = durationSelect.value;
         const durationLabel = durationSelect.options[durationSelect.selectedIndex].text;
-        
-        // Buat string random 4 karakter (huruf & angka)
         const randomString = Math.random().toString(36).substring(2, 6).toUpperCase();
         const newPin = `GEM${duration}-${randomString}`;
         
         document.getElementById('pin-duration-label').innerText = `Paket: ${durationLabel}`;
         document.getElementById('generated-pin').innerText = newPin;
         document.getElementById('pin-result-modal').classList.remove('hidden');
-        document.getElementById('copy-status').classList.remove('opacity-100'); // reset copy status
+        document.getElementById('copy-status').classList.remove('opacity-100');
     }
 
     function closePinModal() {
@@ -487,55 +559,8 @@
         navigator.clipboard.writeText(pinText).then(() => {
             const statusText = document.getElementById('copy-status');
             statusText.classList.add('opacity-100');
-            setTimeout(() => {
-                statusText.classList.remove('opacity-100');
-            }, 2000);
+            setTimeout(() => { statusText.classList.remove('opacity-100'); }, 2000);
         });
-    }
-
-    // Logika Modal ACC (Pilih Head Account)
-    let currentRowToApprove = null;
-
-    function openAccModal(btn, email, paket) {
-      currentRowToApprove = btn.closest('tr');
-      document.getElementById('modal-target-email').innerText = email;
-      document.getElementById('modal-target-paket').innerText = "Paket: " + paket;
-      document.getElementById('modal-select-head').classList.remove('hidden');
-    }
-
-    function closeAccModal() {
-      document.getElementById('modal-select-head').classList.add('hidden');
-      document.getElementById('select-head-account').value = ""; // reset
-    }
-
-    function confirmAcc() {
-      const selectedHead = document.getElementById('select-head-account').value;
-      if (!selectedHead) {
-        alert("Pilih akun Head terlebih dahulu!");
-        return;
-      }
-
-      // Animasi Sukses di Tabel
-      currentRowToApprove.innerHTML = `
-        <td colspan="5" class="px-6 py-4 text-center bg-emerald-50/80">
-          <p class="text-emerald-600 font-bold flex items-center justify-center gap-1.5"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Akun berhasil di-ACC!</p>
-          <p class="text-[10px] text-emerald-500 font-medium mt-1">Tertaut ke Head: ${selectedHead}</p>
-        </td>
-      `;
-      if(typeof lucide !== 'undefined') lucide.createIcons();
-      
-      closeAccModal();
-      
-      setTimeout(() => currentRowToApprove.remove(), 2500);
-    }
-
-    function rejectAction(btn) {
-      if(confirm('Tolak permintaan aktivasi ini?')) {
-        const row = btn.closest('tr');
-        row.innerHTML = `<td colspan="5" class="px-6 py-4 text-center text-rose-600 font-bold bg-rose-50/50"><i data-lucide="x-circle" class="w-5 h-5 inline-block mr-1"></i> Permintaan Ditolak.</td>`;
-        if(typeof lucide !== 'undefined') lucide.createIcons();
-        setTimeout(() => row.remove(), 2000);
-      }
     }
 
     if(typeof lucide !== 'undefined') lucide.createIcons();
