@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cek Status & Masa Aktif - Gemini Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .bg-gemini-gradient { background: linear-gradient(135deg, #4285f4, #9b72cb, #d96570); }
+    .text-gemini { background: linear-gradient(to right, #4285f4, #9b72cb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-700 min-h-screen font-sans antialiased selection:bg-blue-200 selection:text-blue-900 flex flex-col">
+
+  <!-- Header -->
+  <header class="w-full bg-white/80 backdrop-blur-lg border-b border-slate-200 p-4 lg:py-5 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gemini-gradient text-white flex items-center justify-center shadow-lg shadow-purple-200">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h1 class="font-black text-base lg:text-lg tracking-tight text-slate-900 leading-none">GEMINI<span class="text-gemini">PRO</span></h1>
+          <p class="text-[10px] text-slate-500 font-medium mt-0.5 tracking-wide">Status Tracker</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="text-xs font-bold text-slate-600 hover:text-blue-600 bg-white hover:bg-blue-50 border border-slate-200 px-4 py-2 rounded-xl transition-all flex items-center gap-2 shadow-sm">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-blue-500"></i>
+          <span class="hidden sm:inline">Portal Aktivasi</span>
+          <span class="sm:hidden">Kembali</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex flex-col items-center justify-start pt-12 pb-20 px-4 sm:px-6">
+    
+    <div class="w-full max-w-xl space-y-8">
+      <!-- Judul -->
+      <div class="text-center space-y-3">
+        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto border border-blue-100 shadow-sm mb-4">
+          <i data-lucide="radar" class="w-8 h-8"></i>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">Cek Status Akun</h2>
+        <p class="text-xs sm:text-sm text-slate-500 font-medium">Masukkan email Google (Gmail) Anda untuk melihat status aktivasi dan sisa masa aktif langganan Gemini Pro Anda.</p>
+      </div>
+
+      <!-- Kotak Pencarian -->
+      <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50 flex items-center focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-400 transition-all">
+        <div class="pl-4 pr-2 text-slate-400">
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </div>
+        <input type="email" id="search-email" placeholder="Ketik email Anda di sini..." class="w-full py-3 bg-transparent text-sm font-bold text-slate-800 placeholder:text-slate-400 focus:outline-none" onkeypress="handleEnter(event)">
+        <button onclick="checkStatus()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-black transition-all shadow-md shadow-blue-200 whitespace-nowrap">
+          Cek Data
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading-state" class="hidden flex-col items-center justify-center py-10 space-y-4">
+        <div class="relative w-12 h-12">
+          <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+          <div class="absolute inset-0 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+        <p class="text-sm font-bold text-slate-500 animate-pulse">Mencari data di server...</p>
+      </div>
+
+      <!-- RESULT: AKTIF -->
+      <div id="result-active" class="hidden bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4 relative z-10">
+          <div class="flex items-center gap-2 text-emerald-600">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+            <span class="font-black text-sm uppercase tracking-wider">Status: Aktif</span>
+          </div>
+          <span class="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100">Verified</span>
+        </div>
+
+        <div class="pt-5 space-y-6 relative z-10">
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Email Terdaftar</p>
+            <p id="res-active-email" class="text-base sm:text-lg font-black text-slate-800 break-all">...</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Paket</p>
+              <p id="res-active-paket" class="text-sm sm:text-base font-black text-blue-600">...</p>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+              <p class="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest mb-1">Sisa Waktu</p>
+              <p id="res-active-sisa" class="text-sm sm:text-base font-black text-emerald-600">...</p>
+            </div>
+          </div>
+
+          <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-3 items-start">
+            <i data-lucide="info" class="w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
+            <p class="text-xs text-blue-800 leading-relaxed font-medium">Akun Gemini Pro Anda sudah aktif dan siap digunakan. Silakan login ke <a href="https://gemini.google.com" target="_blank" class="font-bold underline">gemini.google.com</a> menggunakan email di atas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT: PENDING (Menunggu ACC) -->
+      <div id="result-pending" class="hidden bg-white border border-amber-200 rounded-3xl p-6 sm:p-8 shadow-xl shadow-amber-100/50 relative overflow-hidden">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div class="flex items-center gap-2 text-amber-500">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+            <span class="font-black text-sm uppercase tracking-wider">Status: Dalam Antrean</span>
+          </div>
+          <span class="text-[10px] font-bold bg-amber-50 text-amber-600 px-3 py-1 rounded-full border border-amber-100 animate-pulse">Menunggu Admin</span>
+        </div>
+
+        <div class="pt-5 space-y-4">
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Email Didaftarkan</p>
+            <p id="res-pending-email" class="text-base font-black text-slate-800 break-all">...</p>
+          </div>
+          <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4">
+            <p class="text-xs text-amber-800 font-medium leading-relaxed">Permintaan aktivasi Anda sudah kami terima dan sedang berada dalam antrean. Admin akan segera memvalidasi pembayaran dan PIN Anda. Silakan cek kembali halaman ini dalam beberapa menit.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT: NOT FOUND -->
+      <div id="result-notfound" class="hidden bg-white border border-rose-200 rounded-3xl p-6 sm:p-8 shadow-xl shadow-rose-100/50 text-center space-y-4">
+        <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-2">
+          <i data-lucide="x-circle" class="w-8 h-8"></i>
+        </div>
+        <h3 class="font-black text-slate-800 text-lg">Data Tidak Ditemukan</h3>
+        <p class="text-xs text-slate-500 font-medium px-4">Kami tidak dapat menemukan data aktivasi untuk email tersebut. Pastikan Anda mengetik email dengan benar atau mendaftar terlebih dahulu.</p>
+        <button onclick="window.location.href='index.html'" class="mt-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-2.5 rounded-xl text-xs transition">Daftar Aktivasi Baru</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Inisialisasi Ikon
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+
+    // Fungsi membaca URL Params (Auto-Fill)
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const emailFromUrl = urlParams.get('email');
+      
+      if (emailFromUrl) {
+        document.getElementById('search-email').value = emailFromUrl;
+        // Langsung eksekusi pencarian
+        checkStatus();
+      }
+    };
+
+    function handleEnter(e) {
+      if (e.key === 'Enter') {
+        checkStatus();
+      }
+    }
+
+    function hideAllResults() {
+      document.getElementById('result-active').classList.add('hidden');
+      document.getElementById('result-pending').classList.add('hidden');
+      document.getElementById('result-notfound').classList.add('hidden');
+    }
+
+    async function checkStatus() {
+      const emailInput = document.getElementById('search-email').value.trim().toLowerCase();
+      if (!emailInput || !emailInput.includes('@')) {
+        alert('Silakan masukkan alamat Gmail yang valid!');
+        return;
+      }
+
+      hideAllResults();
+      document.getElementById('loading-state').classList.remove('hidden');
+      document.getElementById('loading-state').classList.add('flex');
+
+      try {
+        // [KODE ASLI UNTUK WORKER NANTI]
+        // const res = await fetch(`https://toko-digital-api.rizqinastore97.workers.dev/api/gemini/check?email=${encodeURIComponent(emailInput)}`);
+        // const data = await res.json();
+        
+        // ==========================================
+        // SIMULASI TAMPILAN SEMENTARA (Sebelum Worker Jadi)
+        // ==========================================
+        setTimeout(() => {
+          document.getElementById('loading-state').classList.add('hidden');
+          document.getElementById('loading-state').classList.remove('flex');
+
+          // Demo Logika (Akan diganti dengan response API API)
+          if (emailInput.includes('pending')) {
+            // Simulasi jika statusnya Pending
+            document.getElementById('res-pending-email').innerText = emailInput;
+            document.getElementById('result-pending').classList.remove('hidden');
+          } 
+          else if (emailInput.includes('salah') || emailInput.includes('error')) {
+            // Simulasi jika tidak ditemukan
+            document.getElementById('result-notfound').classList.remove('hidden');
+          } 
+          else {
+            // Default simulasi: Status Aktif
+            document.getElementById('res-active-email').innerText = emailInput;
+            document.getElementById('res-active-paket').innerText = "Gemini Pro 18 Bulan";
+            document.getElementById('res-active-sisa').innerText = "539 Hari";
+            document.getElementById('result-active').classList.remove('hidden');
+          }
+        }, 1500); // Simulasi loading 1.5 detik
+
+      } catch (e) {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('loading-state').classList.remove('flex');
+        alert('Gagal terhubung ke server.');
+      }
+    }
+  </script>
+</body>
+</html>
