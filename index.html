@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Aktivasi Gemini Pro - Official</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Animasi gradasi khusus khas Gemini */
+    .bg-gemini-gradient {
+      background: linear-gradient(135deg, #4285f4, #9b72cb, #d96570);
+    }
+    .text-gemini {
+      background: linear-gradient(to right, #4285f4, #9b72cb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-700 min-h-screen font-sans antialiased selection:bg-blue-200 selection:text-blue-900">
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-full max-w-xs px-4"></div>
+
+  <!-- Header -->
+  <header class="w-full bg-white/80 backdrop-blur-lg border-b border-slate-200 p-4 lg:py-5 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-2 lg:px-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-gemini-gradient text-white flex items-center justify-center shadow-lg shadow-purple-200">
+          <i data-lucide="sparkles" class="w-5 h-5 lg:w-6 lg:h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="font-black text-base lg:text-xl tracking-tight text-slate-900 leading-none">GEMINI<span class="text-gemini">PRO</span></h1>
+          <p class="text-[10px] lg:text-xs text-slate-500 font-medium mt-1 tracking-wide">Official Activation Portal</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="cek-durasi.html" class="text-xs lg:text-sm font-bold text-slate-600 hover:text-blue-600 bg-white hover:bg-blue-50 border border-slate-200 px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl transition-all flex items-center gap-2 shadow-sm">
+          <i data-lucide="search" class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-blue-500"></i>
+          <span>Cek Sisa Hari</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 space-y-12 lg:space-y-16">
+    <div class="text-center space-y-5 lg:space-y-6 max-w-3xl mx-auto mt-4">
+      <span class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 border border-blue-200 text-[10px] lg:text-xs font-black px-4 py-1.5 lg:py-2 rounded-full uppercase tracking-widest shadow-sm">
+        <i data-lucide="shield-check" class="w-3 h-3 lg:w-4 lg:h-4"></i> Khusus Pelanggan Terdaftar
+      </span>
+      <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900">Portal Aktivasi <span class="text-gemini">Gemini Pro</span></h2>
+      <p class="text-xs sm:text-sm lg:text-base text-slate-500 leading-relaxed font-medium px-4">Formulir ini dikhususkan bagi Anda yang <b>telah berhasil menyelesaikan pembayaran</b>. Pilih durasi sesuai pesanan Anda dan masukkan email untuk proses aktivasi otomatis.</p>
+    </div>
+
+    <!-- Pilihan Paket Grid (Diubah jadi 5 Kolom untuk PC) -->
+    <div class="space-y-5 lg:space-y-6">
+      <h3 class="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 ml-1">
+        <i data-lucide="layers" class="w-4 h-4 lg:w-5 lg:h-5 text-purple-500"></i> Pilih Durasi Akses
+      </h3>
+      
+      <div id="packages-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+        <!-- Paket 1 Bulan -->
+        <div onclick="selectPackage(1, 'Gemini Pro 1 Bulan')" class="pkg-card bg-white border-2 border-slate-100 hover:border-slate-300 hover:shadow-lg rounded-2xl lg:rounded-3xl p-5 lg:py-8 lg:px-6 cursor-pointer transition-all flex flex-col justify-between text-center group shadow-sm">
+          <div>
+            <span class="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Paket Hemat</span>
+            <h4 class="text-base lg:text-xl font-black text-slate-800 mt-2 lg:mt-3">1 Bulan</h4>
+            <p class="text-[10px] lg:text-xs text-slate-500 mt-1.5 lg:mt-2">30 Hari Akses</p>
+          </div>
+          <div class="mt-5 lg:mt-8 pt-3 lg:pt-4 border-t border-slate-100">
+            <span class="text-[10px] lg:text-xs font-bold text-blue-500 uppercase tracking-wide group-hover:text-blue-600 transition-colors">Pilih Paket</span>
+          </div>
+        </div>
+
+        <!-- Paket 2 Bulan -->
+        <div onclick="selectPackage(2, 'Gemini Pro 2 Bulan')" class="pkg-card bg-white border-2 border-slate-100 hover:border-slate-300 hover:shadow-lg rounded-2xl lg:rounded-3xl p-5 lg:py-8 lg:px-6 cursor-pointer transition-all flex flex-col justify-between text-center group shadow-sm">
+          <div>
+            <span class="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Paket Hemat</span>
+            <h4 class="text-base lg:text-xl font-black text-slate-800 mt-2 lg:mt-3">2 Bulan</h4>
+            <p class="text-[10px] lg:text-xs text-slate-500 mt-1.5 lg:mt-2">60 Hari Akses</p>
+          </div>
+          <div class="mt-5 lg:mt-8 pt-3 lg:pt-4 border-t border-slate-100">
+            <span class="text-[10px] lg:text-xs font-bold text-blue-500 uppercase tracking-wide group-hover:text-blue-600 transition-colors">Pilih Paket</span>
+          </div>
+        </div>
+
+        <!-- Paket 3 Bulan -->
+        <div onclick="selectPackage(3, 'Gemini Pro 3 Bulan')" class="pkg-card bg-white border-2 border-slate-100 hover:border-slate-300 hover:shadow-lg rounded-2xl lg:rounded-3xl p-5 lg:py-8 lg:px-6 cursor-pointer transition-all flex flex-col justify-between text-center group shadow-sm">
+          <div>
+            <span class="text-[9px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Populer</span>
+            <h4 class="text-base lg:text-xl font-black text-slate-800 mt-2 lg:mt-3">3 Bulan</h4>
+            <p class="text-[10px] lg:text-xs text-slate-500 mt-1.5 lg:mt-2">90 Hari Akses</p>
+          </div>
+          <div class="mt-5 lg:mt-8 pt-3 lg:pt-4 border-t border-slate-100">
+            <span class="text-[10px] lg:text-xs font-bold text-blue-500 uppercase tracking-wide group-hover:text-blue-600 transition-colors">Pilih Paket</span>
+          </div>
+        </div>
+
+        <!-- Paket 6 Bulan -->
+        <div onclick="selectPackage(6, 'Gemini Pro 6 Bulan')" class="pkg-card bg-white border-2 border-slate-100 hover:border-slate-300 hover:shadow-lg rounded-2xl lg:rounded-3xl p-5 lg:py-8 lg:px-6 cursor-pointer transition-all flex flex-col justify-between text-center group shadow-sm">
+          <div>
+            <span class="text-[9px] lg:text-[10px] font-bold text-blue-500 uppercase tracking-wider">Best Value</span>
+            <h4 class="text-base lg:text-xl font-black text-slate-800 mt-2 lg:mt-3">6 Bulan</h4>
+            <p class="text-[10px] lg:text-xs text-slate-500 mt-1.5 lg:mt-2">180 Hari Akses</p>
+          </div>
+          <div class="mt-5 lg:mt-8 pt-3 lg:pt-4 border-t border-slate-100">
+            <span class="text-[10px] lg:text-xs font-bold text-blue-500 uppercase tracking-wide group-hover:text-blue-600 transition-colors">Pilih Paket</span>
+          </div>
+        </div>
+
+        <!-- Paket 18 Bulan (Promo) -->
+        <div onclick="selectPackage(18, 'Gemini Pro 18 Bulan (Promo)')" class="pkg-card bg-gradient-to-b from-blue-50 to-white border-2 border-blue-200 hover:border-blue-300 rounded-2xl lg:rounded-3xl p-5 lg:py-8 lg:px-6 cursor-pointer transition-all flex flex-col justify-between text-center group relative shadow-md shadow-blue-100/50 lg:hover:-translate-y-1">
+          <span class="absolute -top-3 lg:-top-3.5 right-1/2 translate-x-1/2 lg:translate-x-0 lg:right-6 bg-gemini-gradient text-white text-[9px] lg:text-[10px] font-black px-4 py-1 lg:py-1.5 rounded-full shadow-lg tracking-widest whitespace-nowrap">PROMO</span>
+          <div>
+            <span class="text-[9px] lg:text-[10px] font-bold text-pink-500 uppercase tracking-wider">Max Pro</span>
+            <h4 class="text-base lg:text-xl font-black text-slate-800 mt-2 lg:mt-3">18 Bulan</h4>
+            <p class="text-[10px] lg:text-xs text-slate-500 mt-1.5 lg:mt-2">540 Hari Akses</p>
+          </div>
+          <div class="mt-5 lg:mt-8 pt-3 lg:pt-4 border-t border-blue-100">
+            <span class="text-[10px] lg:text-xs font-bold text-blue-600 uppercase tracking-wide group-hover:text-blue-700 transition-colors">Pilih Paket</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Input Aktivasi + WhatsApp + PIN -->
+    <div id="activation-section" class="bg-white border border-slate-200 rounded-3xl lg:rounded-[2rem] p-6 sm:p-8 lg:p-10 max-w-2xl mx-auto space-y-6 lg:space-y-8 hidden shadow-xl shadow-slate-200/50 relative overflow-hidden">
+      <!-- Ornamen Dekorasi -->
+      <div class="absolute top-0 right-0 w-40 h-40 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
+      
+      <div class="border-b border-slate-100 pb-4 lg:pb-5 flex justify-between items-center relative z-10">
+        <div>
+          <h3 class="font-extrabold text-sm sm:text-lg lg:text-xl text-slate-900 tracking-tight">Setup Aktivasi Akun</h3>
+          <p id="selected-package-label" class="text-xs lg:text-sm text-blue-600 font-bold mt-1 tracking-wide">-</p>
+        </div>
+        <div class="bg-blue-50 text-blue-600 px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg text-[10px] lg:text-xs font-black border border-blue-100 uppercase tracking-wider shadow-sm">Langkah Akhir</div>
+      </div>
+
+      <!-- Input Email -->
+      <div class="space-y-3 lg:space-y-4 relative z-10">
+        <label class="text-xs lg:text-sm font-bold text-slate-700 block tracking-wide">Email Pribadi Google (Gmail):</label>
+        <div class="relative group">
+          <i data-lucide="mail" class="w-4 h-4 lg:w-5 lg:h-5 text-slate-400 absolute left-4 lg:left-5 top-3.5 lg:top-4 group-focus-within:text-blue-500 transition-colors"></i>
+          <input type="email" id="buyer-email" placeholder="contoh: emailkamu@gmail.com" class="w-full pl-11 lg:pl-14 pr-4 py-3.5 lg:py-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl text-sm lg:text-base text-slate-900 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 font-medium placeholder:text-slate-400 transition-all shadow-inner" />
+        </div>
+        <p class="text-[10px] lg:text-xs text-slate-500 leading-relaxed">Pastikan alamat email sudah benar. Akses fitur AI Premium dan kapasitas Google Workspace akan diinjeksikan langsung ke email ini.</p>
+      </div>
+
+      <!-- Input Nomor WhatsApp -->
+      <div class="space-y-3 lg:space-y-4 relative z-10 mt-4">
+        <label class="text-xs lg:text-sm font-bold text-slate-700 block tracking-wide">Nomor WhatsApp Aktif:</label>
+        <div class="relative group">
+          <i data-lucide="phone" class="w-4 h-4 lg:w-5 lg:h-5 text-slate-400 absolute left-4 lg:left-5 top-3.5 lg:top-4 group-focus-within:text-blue-500 transition-colors"></i>
+          <input type="tel" id="buyer-wa" placeholder="Contoh: 081234567890" class="w-full pl-11 lg:pl-14 pr-4 py-3.5 lg:py-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl text-sm lg:text-base text-slate-900 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 font-medium placeholder:text-slate-400 transition-all shadow-inner" />
+        </div>
+        <p class="text-[10px] lg:text-xs text-slate-500 leading-relaxed">Untuk memudahkan Admin menghubungi Anda jika ada kendala aktivasi atau perpanjangan durasi.</p>
+      </div>
+
+      <!-- Input PIN Aktivasi -->
+      <div class="space-y-3 lg:space-y-4 relative z-10 mt-4">
+        <label class="text-xs lg:text-sm font-bold text-slate-700 block tracking-wide">PIN Aktivasi / Kode Pesanan:</label>
+        <div class="relative group">
+          <i data-lucide="key-round" class="w-4 h-4 lg:w-5 lg:h-5 text-slate-400 absolute left-4 lg:left-5 top-3.5 lg:top-4 group-focus-within:text-blue-500 transition-colors"></i>
+          <input type="text" id="buyer-pin" placeholder="Contoh: GEM-XXXX-XXXX" class="w-full pl-11 lg:pl-14 pr-4 py-3.5 lg:py-4 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-2xl text-sm lg:text-base text-slate-900 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 font-bold uppercase placeholder:text-slate-400 placeholder:font-medium placeholder:lowercase transition-all shadow-inner" />
+        </div>
+        <p class="text-[10px] lg:text-xs text-slate-500 leading-relaxed">Masukkan PIN unik yang Anda dapatkan setelah menyelesaikan pembayaran.</p>
+      </div>
+
+      <button id="btn-submit" onclick="submitActivation()" class="w-full py-4 lg:py-5 bg-gemini-gradient hover:opacity-90 text-white font-black rounded-xl lg:rounded-2xl shadow-lg shadow-purple-200 text-sm lg:text-base transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.98] relative z-10">
+        <i data-lucide="zap" class="w-4 h-4 lg:w-5 lg:h-5 text-white"></i>
+        <span>Proses Aktivasi Sekarang</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- MODAL LOADING & SUKSES AKTIVASI -->
+  <div id="activation-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+    <div class="bg-white border border-slate-100 w-full max-w-md rounded-3xl lg:rounded-[2rem] shadow-2xl p-8 lg:p-10 relative z-10 text-center">
+      
+      <!-- State 1: Loading Menunggu Admin -->
+      <div id="modal-loading-state" class="space-y-5 lg:space-y-6">
+        <div class="relative w-16 h-16 lg:w-20 lg:h-20 mx-auto">
+          <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+          <div class="absolute inset-0 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
+          <i data-lucide="sparkles" class="w-6 h-6 lg:w-8 lg:h-8 text-purple-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg lg:text-xl tracking-tight">Memverifikasi Data...</h3>
+          <p class="text-xs lg:text-sm text-slate-500 leading-relaxed mt-2 lg:mt-3">Mohon tunggu dan jangan tutup halaman ini.<br>Sistem sedang memvalidasi PIN dan menghubungi server.</p>
+        </div>
+      </div>
+
+      <!-- State 2: Sukses Centang Hijau -->
+      <div id="modal-success-state" class="space-y-5 lg:space-y-6 hidden">
+        <div class="w-16 h-16 lg:w-20 lg:h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto border border-emerald-100 shadow-inner">
+          <i data-lucide="check-circle-2" class="w-10 h-10 lg:w-12 lg:h-12"></i>
+        </div>
+        <div>
+          <h3 class="font-black text-emerald-600 text-xl lg:text-2xl tracking-tight">Aktivasi Sukses!</h3>
+          <p class="text-xs lg:text-sm text-slate-500 font-medium mt-2 lg:mt-3">Akun Gemini Pro Anda telah aktif.<br>Mengarahkan ke Dashboard Status...</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // URL API Worker (Ganti dengan link Worker Cloudflare Kakak nanti)
+    const API_URL = "https://toko-digital-api.rizqinastore97.workers.dev"; 
+    let selectedMonths = 0;
+    let selectedName = '';
+
+    function showToast(msg, type='info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `${type === 'error' ? 'bg-rose-500' : 'bg-emerald-500'} text-white text-xs lg:text-sm font-semibold px-4 py-3 rounded-xl shadow-lg transition-all flex items-center gap-2`;
+      toast.innerHTML = `<i data-lucide="${type === 'error' ? 'alert-circle' : 'check-circle'}" class="w-4 h-4"></i> ${msg}`;
+      container.appendChild(toast);
+      if(typeof lucide !== 'undefined') lucide.createIcons();
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Fungsi Saat Pilih Durasi 
+    function selectPackage(months, name) {
+      selectedMonths = months;
+      selectedName = name;
+
+      // Reset style semua kotak
+      document.querySelectorAll('.pkg-card').forEach(card => {
+        card.classList.remove('border-blue-500', 'ring-2', 'ring-blue-500/20', 'bg-blue-50');
+        
+        if(!card.querySelector('.absolute')) { 
+          card.classList.add('border-slate-100', 'bg-white');
+        } else {
+          card.classList.add('border-blue-200');
+        }
+      });
+      
+      // Beri highlight pada kotak yang diklik
+      const clickedCard = event.currentTarget;
+      clickedCard.classList.remove('border-slate-100', 'border-blue-200', 'bg-white');
+      clickedCard.classList.add('border-blue-500', 'ring-2', 'ring-blue-500/20', 'bg-blue-50');
+
+      // Tampilkan form input
+      document.getElementById('selected-package-label').innerText = name;
+      document.getElementById('activation-section').classList.remove('hidden');
+      
+      // Scroll halus
+      setTimeout(() => {
+        document.getElementById('activation-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+
+    async function submitActivation() {
+      const email = document.getElementById('buyer-email').value.trim();
+      const wa = document.getElementById('buyer-wa').value.trim(); // Ambil nilai WA
+      const pin = document.getElementById('buyer-pin').value.trim();
+
+      // Validasi Email
+      if (!email || !email.includes('@')) {
+        showToast('Masukkan alamat Google Mail yang valid.', 'error');
+        return;
+      }
+
+      // Validasi WhatsApp
+      if (!wa || wa.length < 9) {
+        showToast('Nomor WhatsApp wajib diisi dengan benar.', 'error');
+        return;
+      }
+      
+      // Validasi PIN
+      if (!pin) {
+        showToast('PIN Aktivasi wajib diisi!', 'error');
+        return;
+      }
+
+      // Tampilkan Modal Loading
+      const modal = document.getElementById('activation-modal');
+      const loadingState = document.getElementById('modal-loading-state');
+      const successState = document.getElementById('modal-success-state');
+      
+      modal.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      successState.classList.add('hidden');
+
+      try {
+        // [1] Nanti datanya dikirim ke Worker: JSON.stringify({ email, wa, pin, durationMonths: selectedMonths })
+        // const res = await fetch(`${API_URL}/api/gemini/request`, { ... });
+        
+        // [2] Simulasi delay menunggu proses validasi & ACC Admin (6 detik)
+        setTimeout(() => {
+            triggerSuccessState(email);
+        }, 6000); 
+
+      } catch (e) {
+        modal.classList.add('hidden');
+        showToast('Koneksi terputus. Silakan coba lagi.', 'error');
+      }
+    }
+
+    function triggerSuccessState(email) {
+      const loadingState = document.getElementById('modal-loading-state');
+      const successState = document.getElementById('modal-success-state');
+
+      loadingState.classList.add('hidden');
+      successState.classList.remove('hidden');
+      if(typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Pindah ke halaman dashboard
+      setTimeout(() => {
+        window.location.href = `cek-durasi.html?email=${encodeURIComponent(email)}`;
+      }, 2500);
+    }
+
+    // Render Ikon Lucide
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  </script>
+</body>
+</html>
