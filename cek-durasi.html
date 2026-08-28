@@ -139,6 +139,9 @@
   </main>
 
   <script>
+    // URL API Worker Asli Milik Kakak
+    const API_URL = "https://gemini-api-rizqina.rizqinastore97.workers.dev";
+
     // Inisialisasi Ikon
     if(typeof lucide !== 'undefined') lucide.createIcons();
 
@@ -149,7 +152,6 @@
       
       if (emailFromUrl) {
         document.getElementById('search-email').value = emailFromUrl;
-        // Langsung eksekusi pencarian
         checkStatus();
       }
     };
@@ -178,40 +180,31 @@
       document.getElementById('loading-state').classList.add('flex');
 
       try {
-        // [KODE ASLI UNTUK WORKER NANTI]
-        // const res = await fetch(`https://toko-digital-api.rizqinastore97.workers.dev/api/gemini/check?email=${encodeURIComponent(emailInput)}`);
-        // const data = await res.json();
-        
-        // ==========================================
-        // SIMULASI TAMPILAN SEMENTARA (Sebelum Worker Jadi)
-        // ==========================================
-        setTimeout(() => {
-          document.getElementById('loading-state').classList.add('hidden');
-          document.getElementById('loading-state').classList.remove('flex');
+        const response = await fetch(`${API_URL}/api/gemini/check?email=${encodeURIComponent(emailInput)}`);
+        const result = await response.json();
 
-          // Demo Logika (Akan diganti dengan response API API)
-          if (emailInput.includes('pending')) {
-            // Simulasi jika statusnya Pending
-            document.getElementById('res-pending-email').innerText = emailInput;
-            document.getElementById('result-pending').classList.remove('hidden');
-          } 
-          else if (emailInput.includes('salah') || emailInput.includes('error')) {
-            // Simulasi jika tidak ditemukan
-            document.getElementById('result-notfound').classList.remove('hidden');
-          } 
-          else {
-            // Default simulasi: Status Aktif
-            document.getElementById('res-active-email').innerText = emailInput;
-            document.getElementById('res-active-paket').innerText = "Gemini Pro 18 Bulan";
-            document.getElementById('res-active-sisa').innerText = "539 Hari";
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('loading-state').classList.remove('flex');
+
+        if (result.success) {
+          if (result.status === "ACTIVE") {
+            document.getElementById('res-active-email').innerText = result.data.email;
+            document.getElementById('res-active-paket').innerText = "Gemini Pro " + result.data.durationMonths + " Bulan";
+            document.getElementById('res-active-sisa').innerText = (result.data.sisaHari || "-") + " Hari";
             document.getElementById('result-active').classList.remove('hidden');
+          } 
+          else if (result.status === "PENDING") {
+            document.getElementById('res-pending-email').innerText = result.data.email;
+            document.getElementById('result-pending').classList.remove('hidden');
           }
-        }, 1500); // Simulasi loading 1.5 detik
+        } else {
+          document.getElementById('result-notfound').classList.remove('hidden');
+        }
 
       } catch (e) {
         document.getElementById('loading-state').classList.add('hidden');
         document.getElementById('loading-state').classList.remove('flex');
-        alert('Gagal terhubung ke server.');
+        alert('Gagal terhubung ke server database.');
       }
     }
   </script>
