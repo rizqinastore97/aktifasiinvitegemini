@@ -56,7 +56,7 @@
       <p class="text-xs sm:text-sm lg:text-base text-slate-500 leading-relaxed font-medium px-4">Formulir ini dikhususkan bagi Anda yang <b>telah berhasil menyelesaikan pembayaran</b>. Pilih durasi sesuai pesanan Anda dan masukkan email untuk proses aktivasi otomatis.</p>
     </div>
 
-    <!-- Pilihan Paket Grid (Diubah jadi 5 Kolom untuk PC) -->
+    <!-- Pilihan Paket Grid (5 Kolom) -->
     <div class="space-y-5 lg:space-y-6">
       <h3 class="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 ml-1">
         <i data-lucide="layers" class="w-4 h-4 lg:w-5 lg:h-5 text-purple-500"></i> Pilih Durasi Akses
@@ -209,8 +209,8 @@
   </div>
 
   <script>
-    // URL API Worker (Ganti dengan link Worker Cloudflare Kakak nanti)
-    const API_URL = "https://toko-digital-api.rizqinastore97.workers.dev"; 
+    // URL API Worker (Ganti dengan link Worker Cloudflare asli Kakak)
+    const API_URL = "https://gemini-api-rizqina.namaworker.workers.dev"; 
     let selectedMonths = 0;
     let selectedName = '';
 
@@ -224,15 +224,12 @@
       setTimeout(() => toast.remove(), 3000);
     }
 
-    // Fungsi Saat Pilih Durasi 
     function selectPackage(months, name) {
       selectedMonths = months;
       selectedName = name;
 
-      // Reset style semua kotak
       document.querySelectorAll('.pkg-card').forEach(card => {
         card.classList.remove('border-blue-500', 'ring-2', 'ring-blue-500/20', 'bg-blue-50');
-        
         if(!card.querySelector('.absolute')) { 
           card.classList.add('border-slate-100', 'bg-white');
         } else {
@@ -240,16 +237,13 @@
         }
       });
       
-      // Beri highlight pada kotak yang diklik
       const clickedCard = event.currentTarget;
       clickedCard.classList.remove('border-slate-100', 'border-blue-200', 'bg-white');
       clickedCard.classList.add('border-blue-500', 'ring-2', 'ring-blue-500/20', 'bg-blue-50');
 
-      // Tampilkan form input
       document.getElementById('selected-package-label').innerText = name;
       document.getElementById('activation-section').classList.remove('hidden');
       
-      // Scroll halus
       setTimeout(() => {
         document.getElementById('activation-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
@@ -257,28 +251,22 @@
 
     async function submitActivation() {
       const email = document.getElementById('buyer-email').value.trim();
-      const wa = document.getElementById('buyer-wa').value.trim(); // Ambil nilai WA
+      const wa = document.getElementById('buyer-wa').value.trim();
       const pin = document.getElementById('buyer-pin').value.trim();
 
-      // Validasi Email
       if (!email || !email.includes('@')) {
         showToast('Masukkan alamat Google Mail yang valid.', 'error');
         return;
       }
-
-      // Validasi WhatsApp
       if (!wa || wa.length < 9) {
         showToast('Nomor WhatsApp wajib diisi dengan benar.', 'error');
         return;
       }
-      
-      // Validasi PIN
       if (!pin) {
         showToast('PIN Aktivasi wajib diisi!', 'error');
         return;
       }
 
-      // Tampilkan Modal Loading
       const modal = document.getElementById('activation-modal');
       const loadingState = document.getElementById('modal-loading-state');
       const successState = document.getElementById('modal-success-state');
@@ -288,17 +276,29 @@
       successState.classList.add('hidden');
 
       try {
-        // [1] Nanti datanya dikirim ke Worker: JSON.stringify({ email, wa, pin, durationMonths: selectedMonths })
-        // const res = await fetch(`${API_URL}/api/gemini/request`, { ... });
-        
-        // [2] Simulasi delay menunggu proses validasi & ACC Admin (6 detik)
-        setTimeout(() => {
-            triggerSuccessState(email);
-        }, 6000); 
+        const response = await fetch(`${API_URL}/api/gemini/request`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            wa: wa,
+            pin: pin,
+            durationMonths: selectedMonths
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          triggerSuccessState(email);
+        } else {
+          modal.classList.add('hidden');
+          showToast(result.message || 'Gagal memproses permintaan.', 'error');
+        }
 
       } catch (e) {
         modal.classList.add('hidden');
-        showToast('Koneksi terputus. Silakan coba lagi.', 'error');
+        showToast('Koneksi ke server gagal. Periksa kembali URL API.', 'error');
       }
     }
 
@@ -310,13 +310,11 @@
       successState.classList.remove('hidden');
       if(typeof lucide !== 'undefined') lucide.createIcons();
 
-      // Pindah ke halaman dashboard
       setTimeout(() => {
         window.location.href = `cek-durasi.html?email=${encodeURIComponent(email)}`;
-      }, 2500);
+      }, 2000);
     }
 
-    // Render Ikon Lucide
     if(typeof lucide !== 'undefined') lucide.createIcons();
   </script>
 </body>
