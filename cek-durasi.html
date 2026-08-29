@@ -7,104 +7,134 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    .bg-gemini-gradient { background: linear-gradient(135deg, #4285f4, #9b72cb, #d96570); }
-    .text-gemini { background: linear-gradient(to right, #4285f4, #9b72cb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .bg-gemini-gradient { background: linear-gradient(135deg, #1A73E8 0%, #9333EA 50%, #E91E63 100%); }
+    .text-gemini { 
+      background: linear-gradient(135deg, #1A73E8 0%, #9333EA 50%, #E91E63 100%); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-700 min-h-screen font-sans antialiased flex flex-col">
+<body class="bg-[#F8FAFC] text-slate-800 min-h-screen font-sans antialiased relative overflow-x-hidden flex flex-col">
+
+  <!-- Efek Cahaya Ambient -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-300/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-300/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
 
   <!-- Header -->
-  <header class="w-full bg-white/80 backdrop-blur-lg border-b border-slate-200 p-4 sticky top-0 z-40 shadow-sm">
+  <header class="w-full bg-white/70 backdrop-blur-xl border-b border-white/50 p-4 lg:py-5 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
     <div class="max-w-5xl mx-auto flex items-center justify-between px-2">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gemini-gradient text-white flex items-center justify-center shadow-lg"><i data-lucide="sparkles" class="w-5 h-5"></i></div>
+        <div class="w-10 h-10 rounded-xl bg-gemini-gradient text-white flex items-center justify-center shadow-lg shadow-purple-500/30">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
         <div>
           <h1 class="font-black text-base lg:text-lg tracking-tight text-slate-900 leading-none">GEMINI<span class="text-gemini">PRO</span></h1>
-          <p class="text-[10px] text-slate-500 font-medium mt-0.5 tracking-wide">Status Tracker</p>
+          <p class="text-[10px] text-slate-500 font-bold mt-1 tracking-widest uppercase">Status Tracker</p>
         </div>
       </div>
-      <a href="index.html" class="text-xs font-bold text-slate-600 bg-white hover:bg-blue-50 border border-slate-200 px-4 py-2 rounded-xl transition-all flex items-center gap-2 shadow-sm">
-        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-blue-500"></i>
+      <a href="index.html" class="text-xs font-bold text-slate-600 hover:text-purple-700 bg-white border border-slate-200 hover:border-purple-200 px-4 py-2 rounded-xl transition-all flex items-center gap-2 shadow-sm hover:shadow-md hover:shadow-purple-500/10">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-purple-600"></i>
         <span class="hidden sm:inline">Portal Aktivasi</span><span class="sm:hidden">Kembali</span>
       </a>
     </div>
   </header>
 
-  <main class="flex-grow flex flex-col items-center justify-start pt-12 pb-20 px-4 sm:px-6">
+  <main class="flex-grow flex flex-col items-center justify-start pt-12 pb-20 px-4 sm:px-6 animate-fade-up">
     <div class="w-full max-w-xl space-y-8">
       
-      <div class="text-center space-y-3">
-        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto border border-blue-100 shadow-sm mb-4"><i data-lucide="radar" class="w-8 h-8"></i></div>
-        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">Cek Status Akun</h2>
-        <p class="text-xs sm:text-sm text-slate-500 font-medium">Masukkan email Google (Gmail) Anda untuk melihat status aktivasi dan sisa masa aktif langganan.</p>
+      <!-- Judul -->
+      <div class="text-center space-y-4">
+        <div class="inline-flex items-center justify-center p-3 bg-white border border-slate-200 rounded-2xl shadow-sm mb-2">
+          <i data-lucide="radar" class="w-8 h-8 text-blue-500"></i>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">Cek <span class="text-gemini">Status Akun</span></h2>
+        <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-md mx-auto">Masukkan email Google (Gmail) Anda untuk melihat status aktivasi dan sisa masa aktif langganan.</p>
       </div>
 
-      <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-lg flex items-center focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-400 transition-all">
+      <!-- Kotak Pencarian Premium -->
+      <div class="bg-white/80 backdrop-blur-md p-2 rounded-2xl border border-white shadow-xl shadow-slate-200/50 flex items-center focus-within:ring-4 focus-within:ring-purple-500/10 focus-within:border-purple-300 transition-all">
         <div class="pl-4 pr-2 text-slate-400"><i data-lucide="search" class="w-5 h-5"></i></div>
         <input type="email" id="search-email" placeholder="Ketik email Anda di sini..." class="w-full py-3 bg-transparent text-sm font-bold text-slate-800 placeholder:text-slate-400 focus:outline-none" onkeypress="handleEnter(event)">
-        <button onclick="checkStatus(false)" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-black transition-all shadow-md whitespace-nowrap">Cek Data</button>
+        <button onclick="checkStatus(false)" class="bg-gemini-gradient hover:opacity-90 text-white px-6 py-3 rounded-xl text-sm font-black transition-all shadow-lg shadow-purple-500/30 whitespace-nowrap active:scale-95">Cek Data</button>
       </div>
 
       <!-- Loading State -->
       <div id="loading-state" class="hidden flex-col items-center justify-center py-10 space-y-4">
-        <div class="relative w-12 h-12">
+        <div class="relative w-16 h-16">
           <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
-          <div class="absolute inset-0 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
+          <div class="absolute inset-0 border-4 border-transparent border-t-purple-600 rounded-full animate-spin"></div>
+          <i data-lucide="sparkles" class="w-6 h-6 text-purple-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
         </div>
-        <p class="text-sm font-bold text-slate-500 animate-pulse">Mencari data di server...</p>
+        <p class="text-sm font-bold text-slate-500 animate-pulse tracking-wide">Mencari data di server...</p>
       </div>
 
       <!-- RESULT: AKTIF -->
-      <div id="result-active" class="hidden bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2"></div>
-        <div class="flex items-center justify-between border-b border-slate-100 pb-4 relative z-10">
-          <div class="flex items-center gap-2 text-emerald-600"><i data-lucide="check-circle-2" class="w-5 h-5"></i><span class="font-black text-sm uppercase tracking-wider">Status: Aktif</span></div>
-          <span class="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100">Verified</span>
+      <div id="result-active" class="hidden bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-emerald-500/10 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-400/20 rounded-full mix-blend-multiply filter blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+        
+        <div class="flex items-center justify-between border-b border-slate-100 pb-5 relative z-10">
+          <div class="flex items-center gap-3 text-emerald-600">
+            <div class="bg-emerald-100 p-2 rounded-xl"><i data-lucide="check-circle-2" class="w-6 h-6"></i></div>
+            <span class="font-black text-sm uppercase tracking-widest">Status: Aktif</span>
+          </div>
+          <span class="text-[10px] font-black bg-gradient-to-r from-emerald-400 to-emerald-500 text-white px-4 py-1.5 rounded-full shadow-md shadow-emerald-500/30 tracking-wider">VERIFIED</span>
         </div>
-        <div class="pt-5 space-y-6 relative z-10">
+
+        <div class="pt-6 space-y-6 relative z-10">
           <div>
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Email Terdaftar</p>
-            <p id="res-active-email" class="text-base sm:text-lg font-black text-slate-800 break-all">...</p>
+            <p id="res-active-email" class="text-lg sm:text-xl font-black text-slate-800 break-all">...</p>
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
               <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Paket</p>
-              <p id="res-active-paket" class="text-sm sm:text-base font-black text-blue-600">...</p>
+              <p id="res-active-paket" class="text-base font-black text-transparent bg-clip-text bg-gemini-gradient">...</p>
             </div>
-            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+            <div class="bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-100 rounded-2xl p-5 shadow-sm">
               <p class="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest mb-1">Sisa Waktu</p>
-              <p id="res-active-sisa" class="text-sm sm:text-base font-black text-emerald-600">...</p>
+              <p id="res-active-sisa" class="text-base font-black text-emerald-600">...</p>
             </div>
           </div>
-          <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-3 items-start">
-            <i data-lucide="info" class="w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
-            <p class="text-xs text-blue-800 leading-relaxed font-medium">Akun Anda sudah aktif. Silakan login ke <a href="https://gemini.google.com" target="_blank" class="font-bold underline">gemini.google.com</a> menggunakan email di atas.</p>
+          <div class="bg-purple-50/50 border border-purple-100/50 rounded-2xl p-5 flex gap-4 items-start">
+            <i data-lucide="info" class="w-5 h-5 text-purple-500 shrink-0 mt-0.5"></i>
+            <p class="text-xs text-slate-600 leading-relaxed font-medium">Akun Anda sudah aktif. Silakan login ke <a href="https://gemini.google.com" target="_blank" class="font-bold text-purple-600 hover:text-purple-700 underline">gemini.google.com</a> menggunakan email di atas.</p>
           </div>
         </div>
       </div>
 
       <!-- RESULT: PENDING -->
-      <div id="result-pending" class="hidden bg-white border border-amber-200 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-          <div class="flex items-center gap-2 text-amber-500"><i data-lucide="clock" class="w-5 h-5"></i><span class="font-black text-sm uppercase tracking-wider">Status: Dalam Antrean</span></div>
-          <span class="text-[10px] font-bold bg-amber-50 text-amber-600 px-3 py-1 rounded-full border border-amber-100 animate-pulse">Menunggu Admin</span>
+      <div id="result-pending" class="hidden bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-amber-500/10 relative overflow-hidden">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-5">
+          <div class="flex items-center gap-3 text-amber-500">
+            <div class="bg-amber-100 p-2 rounded-xl"><i data-lucide="clock" class="w-6 h-6"></i></div>
+            <span class="font-black text-sm uppercase tracking-widest">Dalam Antrean</span>
+          </div>
+          <div class="flex items-center gap-2 bg-amber-50 text-amber-600 px-4 py-1.5 rounded-full border border-amber-200">
+            <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+            <span class="text-[10px] font-black tracking-wider uppercase">Menunggu Admin</span>
+          </div>
         </div>
-        <div class="pt-5 space-y-4">
+        <div class="pt-6 space-y-5">
           <div>
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Email Didaftarkan</p>
-            <p id="res-pending-email" class="text-base font-black text-slate-800 break-all">...</p>
+            <p id="res-pending-email" class="text-lg font-black text-slate-800 break-all">...</p>
           </div>
-          <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4">
-            <p class="text-xs text-amber-800 font-medium leading-relaxed">Permintaan aktivasi Anda sedang dalam antrean. <b>Tolong jangan tutup halaman ini.</b> Layar ini akan otomatis berubah hijau begitu admin menyetujui pesanan Anda.</p>
+          <div class="bg-gradient-to-br from-amber-50 to-orange-50/50 border border-amber-100 rounded-2xl p-5">
+            <p class="text-xs text-amber-800 font-medium leading-relaxed">Permintaan aktivasi Anda sedang dalam antrean. <b class="text-amber-900">Tolong jangan tutup halaman ini.</b> Layar ini akan otomatis berubah hijau begitu admin menyetujui pesanan Anda.</p>
           </div>
         </div>
       </div>
 
       <!-- RESULT: NOT FOUND -->
-      <div id="result-notfound" class="hidden bg-white border border-rose-200 rounded-3xl p-6 sm:p-8 shadow-xl text-center space-y-4">
-        <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-2"><i data-lucide="x-circle" class="w-8 h-8"></i></div>
-        <h3 class="font-black text-slate-800 text-lg">Data Tidak Ditemukan</h3>
-        <p class="text-xs text-slate-500 font-medium px-4">Kami tidak dapat menemukan data aktivasi untuk email tersebut. Pastikan Anda mengetik email dengan benar.</p>
+      <div id="result-notfound" class="hidden bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-rose-500/10 text-center space-y-4">
+        <div class="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-2 border-4 border-white shadow-sm"><i data-lucide="x-circle" class="w-10 h-10"></i></div>
+        <h3 class="font-black text-slate-800 text-xl tracking-tight">Data Tidak Ditemukan</h3>
+        <p class="text-xs text-slate-500 font-medium px-4 leading-relaxed">Kami tidak dapat menemukan data aktivasi untuk email tersebut. Pastikan Anda mengetik email dengan benar.</p>
       </div>
 
     </div>
@@ -133,7 +163,6 @@
       document.getElementById('result-notfound').classList.add('hidden');
     }
 
-    // Fungsi Cek Otomatis (Polling)
     async function checkStatus(isAuto = false) {
       const emailInput = document.getElementById('search-email').value.trim().toLowerCase();
       if (!emailInput || !emailInput.includes('@')) {
@@ -158,10 +187,10 @@
 
         if (result.success) {
           if (result.status === "ACTIVE") {
-            if (pollingInterval) clearInterval(pollingInterval); // Hentikan auto-check saat sukses
+            if (pollingInterval) clearInterval(pollingInterval);
             hideAllResults();
             document.getElementById('res-active-email').innerText = result.data.email;
-            document.getElementById('res-active-paket').innerText = "Gemini Pro " + result.data.durationMonths + " Bulan";
+            document.getElementById('res-active-paket').innerText = result.data.durationMonths + " Bulan";
             document.getElementById('res-active-sisa').innerText = (result.data.sisaHari || "-") + " Hari";
             document.getElementById('result-active').classList.remove('hidden');
           } 
@@ -170,7 +199,6 @@
             document.getElementById('res-pending-email').innerText = result.data.email;
             document.getElementById('result-pending').classList.remove('hidden');
 
-            // Jalankan polling jika belum jalan
             if (!pollingInterval && !isAuto) {
               pollingInterval = setInterval(() => checkStatus(true), 3000);
             }
