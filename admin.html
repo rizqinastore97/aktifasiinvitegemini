@@ -9,6 +9,8 @@
   <style>
     .bg-gemini-gradient { background: linear-gradient(135deg, #4285f4, #9b72cb, #d96570); }
     .text-gemini { background: linear-gradient(to right, #4285f4, #9b72cb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen font-sans antialiased">
@@ -99,7 +101,6 @@
             </div>
             
             <p id="copy-status" class="text-[10px] text-emerald-600 font-bold opacity-0 transition-opacity">PIN Tersalin ke Clipboard!</p>
-            
             <button onclick="closePinModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg text-sm transition">Tutup</button>
         </div>
     </div>
@@ -133,12 +134,9 @@
             </tr>
           </thead>
           <tbody id="table-antrean-body" class="divide-y divide-slate-100">
-            <!-- Data Antrean akan dimuat otomatis via Javascript -->
+            <!-- Data Antrean dimuat dari Cloudflare -->
           </tbody>
         </table>
-        <div class="bg-slate-50 border-t border-slate-200 p-4 text-xs text-slate-500 text-center font-medium">
-          Menampilkan antrean yang membutuhkan validasi Admin.
-        </div>
       </div>
 
       <!-- ================= SECTION DATABASE AKTIF ================= -->
@@ -148,18 +146,15 @@
             <tr>
               <th scope="col" class="px-6 py-4 font-bold">Info Pelanggan</th>
               <th scope="col" class="px-6 py-4 font-bold">Durasi & Sisa Hari</th>
-              <th scope="col" class="px-6 py-4 font-bold text-blue-600 bg-blue-50/50"><i data-lucide="link" class="w-3 h-3 inline"></i> Di-invite Oleh (Akun Head)</th>
+              <th scope="col" class="px-6 py-4 font-bold text-blue-600 bg-blue-50/50">Di-invite Oleh</th>
               <th scope="col" class="px-6 py-4 font-bold">Status</th>
               <th scope="col" class="px-6 py-4 font-bold text-center">Kelola</th>
             </tr>
           </thead>
           <tbody id="table-database-body" class="divide-y divide-slate-100">
-            <!-- Data Aktif akan dimuat otomatis via Javascript -->
+            <!-- Data Aktif dimuat dari Cloudflare -->
           </tbody>
         </table>
-        <div class="bg-slate-50 border-t border-slate-200 p-4 text-xs text-slate-500 text-center font-medium">
-          Daftar seluruh pelanggan yang masih dalam masa aktif langganan.
-        </div>
       </div>
 
       <!-- ================= SECTION KELOLA HEAD ACCOUNT ================= -->
@@ -168,41 +163,17 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <div>
                     <h3 class="font-bold text-slate-800 text-base">Manajemen Email Head</h3>
-                    <p class="text-xs text-slate-500">Kumpulkan dan pantau kapasitas slot akun pengundang di sini.</p>
+                    <p class="text-xs text-slate-500">Pantau kapasitas slot akun pengundang di sini.</p>
                 </div>
                 <button onclick="document.getElementById('modal-add-head').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 whitespace-nowrap">
                     <i data-lucide="plus" class="w-4 h-4"></i> Tambah Akun Head
                 </button>
             </div>
-            
             <div id="head-accounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Head Account Card Statis / Contoh -->
-                <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
-                                <i data-lucide="user" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-sm text-slate-800">head01.rizqina@gmail.com</p>
-                                <p class="text-[10px] text-emerald-500 font-bold">Status: Aktif</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="font-medium text-slate-500">Kapasitas (Slot)</span>
-                            <span class="font-bold text-slate-700">0 / 5 Terisi</span>
-                        </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2">
-                            <div class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Head Accounts dimuat dari LocalStorage -->
             </div>
         </div>
       </div>
-
     </div>
   </main>
 
@@ -210,28 +181,20 @@
   <div id="modal-add-head" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="document.getElementById('modal-add-head').classList.add('hidden')"></div>
     <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 lg:p-8 space-y-6">
-      
       <div class="border-b border-slate-100 pb-4">
         <h3 class="font-black text-slate-900 text-lg">Tambah Akun Head</h3>
-        <p class="text-xs text-slate-500 mt-1">Masukkan alamat email Head baru yang sudah berlangganan Gemini Advanced (18 Bulan).</p>
       </div>
-
       <div class="space-y-3">
         <label class="text-xs font-bold text-slate-700 block">Email Akun Head:</label>
         <div class="relative">
           <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-4 top-3.5"></i>
           <input type="email" id="new-head-email" placeholder="contoh: headbaru@gmail.com" class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-medium" />
         </div>
-        <p class="text-[10px] text-slate-500">Setiap akun Head memiliki kapasitas maksimal 5 slot undangan family.</p>
       </div>
-
       <div class="flex gap-3 pt-2">
         <button onclick="document.getElementById('modal-add-head').classList.add('hidden')" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition">Batal</button>
-        <button onclick="addHeadAccount()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-200 transition">
-          Simpan Akun
-        </button>
+        <button onclick="addHeadAccount()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-200 transition">Simpan Akun</button>
       </div>
-
     </div>
   </div>
 
@@ -239,161 +202,111 @@
   <div id="modal-select-head" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeAccModal()"></div>
     <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 lg:p-8 space-y-6">
-      
       <div class="border-b border-slate-100 pb-4">
         <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-3">
           <i data-lucide="link" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-black text-slate-900 text-lg">Pilih Akun Head Pengundang</h3>
-        <p class="text-xs text-slate-500 mt-1">Tentukan akun Head mana yang Anda gunakan untuk meng-invite pembeli ini.</p>
+        <h3 class="font-black text-slate-900 text-lg">Pilih Akun Head</h3>
       </div>
-
       <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Target Email Pembeli:</p>
         <p id="modal-target-email" class="font-bold text-slate-800 text-sm mt-0.5">...</p>
         <p id="modal-target-paket" class="text-xs text-blue-600 font-bold mt-1">...</p>
       </div>
-
       <div class="space-y-2">
         <label class="text-xs font-bold text-slate-700 block">Pilih Akun Head:</label>
         <div class="relative">
           <i data-lucide="users" class="w-4 h-4 text-slate-400 absolute left-4 top-3.5"></i>
           <select id="select-head-account" class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-bold appearance-none cursor-pointer shadow-sm">
-            <option value="" disabled selected>-- Pilih Akun Head Gemini --</option>
-            <option value="head01.rizqina@gmail.com">head01.rizqina@gmail.com (Slot: 0/5)</option>
           </select>
           <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-4 top-3.5 pointer-events-none"></i>
         </div>
-        <p class="text-[10px] text-slate-500">Pilih akun Head yang masih memiliki slot kosong.</p>
       </div>
-
       <div class="flex gap-3 pt-2">
         <button onclick="closeAccModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition">Batal</button>
         <button onclick="confirmAcc()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-emerald-200 transition flex items-center justify-center gap-1">
           <i data-lucide="check" class="w-4 h-4"></i> Konfirmasi ACC
         </button>
       </div>
-
     </div>
   </div>
 
   <script>
-    // URL API Worker Asli Milik Kakak
     const API_URL = "https://gemini-api-rizqina.rizqinastore97.workers.dev";
-
-    // Data Sementara untuk Head Accounts & Antrean
-    let headAccounts = JSON.parse(localStorage.getItem('rizqina_heads')) || [
-      { email: "head01.rizqina@gmail.com", activeCount: 0 }
-    ];
+    let headAccounts = JSON.parse(localStorage.getItem('rizqina_heads')) || [];
     let currentEmailToApprove = null;
     let currentDurationToApprove = 0;
 
     window.onload = function() {
       fetchAdminData();
       renderHeadAccounts();
+      setInterval(fetchAdminData, 5000); // Auto refresh tabel antrean setiap 5 detik
     };
 
-    // Ambil Data dari Worker/Database
     async function fetchAdminData() {
       try {
         const response = await fetch(`${API_URL}/api/gemini/admin/data`);
         const result = await response.json();
-
         if (result.success) {
           renderAntrean(result.pendingList || []);
           renderDatabase(result.activeList || []);
-          
           document.getElementById('stat-pending-count').innerHTML = `${(result.pendingList || []).length} <span class="text-sm font-medium text-slate-400">Antrean</span>`;
           document.getElementById('badge-antrean').innerText = (result.pendingList || []).length;
           document.getElementById('stat-active-count').innerHTML = `${(result.activeList || []).length} <span class="text-sm font-medium text-slate-400">Pelanggan</span>`;
         }
-      } catch (e) {
-        console.log("Gagal memuat data admin real-time, menggunakan mode kosong.");
-      }
+      } catch (e) {}
     }
 
-    // Render Tabel Antrean
     function renderAntrean(list) {
       const tbody = document.getElementById('table-antrean-body');
       if (list.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Tidak ada antrean validasi saat ini.</td></tr>`;
         return;
       }
-
       tbody.innerHTML = list.map(item => `
         <tr class="hover:bg-slate-50 transition">
           <td class="px-6 py-4 whitespace-nowrap text-xs">${new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
           <td class="px-6 py-4">
-            <div class="font-bold text-slate-800 flex items-center gap-2">
-              <i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> ${item.email}
-            </div>
-            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-bold border border-emerald-200 transition">
-              <i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}
-            </a>
+            <div class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> ${item.email}</div>
+            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-bold border border-emerald-200 transition"><i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}</a>
           </td>
-          <td class="px-6 py-4">
-            <span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-full text-[11px] border border-blue-100">${item.durationMonths} BULAN</span>
-          </td>
-          <td class="px-6 py-4">
-            <span class="font-mono font-bold text-slate-700">${item.pin}</span>
-          </td>
+          <td class="px-6 py-4"><span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-full text-[11px] border border-blue-100">${item.durationMonths} BULAN</span></td>
+          <td class="px-6 py-4"><span class="font-mono font-bold text-slate-700">${item.pin}</span></td>
           <td class="px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2">
-            <button onclick="openAccModal('${item.email}', ${item.durationMonths})" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
-              <i data-lucide="check" class="w-4 h-4"></i> ACC
-            </button>
-            <button onclick="rejectAction('${item.email}')" class="w-full sm:w-auto bg-rose-50 hover:bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 border border-rose-200">
-              <i data-lucide="x" class="w-4 h-4"></i> Tolak
-            </button>
+            <button onclick="openAccModal('${item.email}', ${item.durationMonths})" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1"><i data-lucide="check" class="w-4 h-4"></i> ACC</button>
+            <button onclick="rejectAction('${item.email}')" class="w-full sm:w-auto bg-rose-50 hover:bg-rose-100 text-rose-600 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 border border-rose-200"><i data-lucide="x" class="w-4 h-4"></i> Tolak</button>
           </td>
         </tr>
       `).join('');
       if(typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    // Render Tabel Database Aktif
     function renderDatabase(list) {
       const tbody = document.getElementById('table-database-body');
       if (list.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Belum ada pelanggan aktif.</td></tr>`;
         return;
       }
-
       tbody.innerHTML = list.map(item => `
         <tr class="hover:bg-slate-50 transition">
           <td class="px-6 py-4">
-            <div class="font-bold text-slate-800 flex items-center gap-2">
-              <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> ${item.email}
-            </div>
-            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-500 text-[10px] font-bold border border-slate-200 hover:border-emerald-200 transition">
-              <i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}
-            </a>
+            <div class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-slate-400"></i> ${item.email}</div>
+            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2 py-1 rounded-md bg-slate-100 hover:bg-emerald-50 text-slate-500 text-[10px] font-bold"><i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}</a>
           </td>
           <td class="px-6 py-4">
             <p class="text-xs font-bold text-slate-700">${item.durationMonths} Bulan</p>
             <p class="text-[10px] text-emerald-500 font-bold mt-0.5">Sisa ${item.sisaHari} Hari</p>
           </td>
-          <td class="px-6 py-4 bg-blue-50/30">
-            <span class="text-xs font-bold text-blue-700 border border-blue-200 bg-blue-50 px-2 py-1 rounded-md">${item.headAccount}</span>
-          </td>
-          <td class="px-6 py-4">
-            <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded-md text-[10px] flex items-center gap-1 w-max">
-              <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Aktif
-            </span>
-          </td>
-          <td class="px-6 py-4 text-center">
-            <button onclick="revocationAction('${item.email}')" class="text-rose-500 hover:text-rose-700 text-xs font-bold transition flex items-center justify-center gap-1 mx-auto">
-              <i data-lucide="user-x" class="w-4 h-4"></i> Cabut Akses
-            </button>
-          </td>
+          <td class="px-6 py-4 bg-blue-50/30"><span class="text-xs font-bold text-blue-700 border border-blue-200 bg-blue-50 px-2 py-1 rounded-md">${item.headAccount}</span></td>
+          <td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded-md text-[10px] flex items-center gap-1 w-max"><div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Aktif</span></td>
+          <td class="px-6 py-4 text-center"><button onclick="revocationAction('${item.email}')" class="text-rose-500 hover:text-rose-700 text-xs font-bold flex items-center justify-center gap-1 mx-auto"><i data-lucide="user-x" class="w-4 h-4"></i> Cabut</button></td>
         </tr>
       `).join('');
       if(typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    // Tab Switching
     function switchTab(tabName) {
-      const tabs = ['antrean', 'database', 'head-accounts'];
-      tabs.forEach(tab => {
+      ['antrean', 'database', 'head-accounts'].forEach(tab => {
           const btn = document.getElementById('tab-' + tab);
           const sec = document.getElementById('section-' + tab);
           if (tab === tabName) {
@@ -410,6 +323,10 @@
 
     // Modal ACC
     function openAccModal(email, duration) {
+      if(headAccounts.length === 0) {
+        alert("Silakan Tambah Akun Head terlebih dahulu di Tab Kelola Head Account!");
+        return;
+      }
       currentEmailToApprove = email;
       currentDurationToApprove = duration;
       document.getElementById('modal-target-email').innerText = email;
@@ -421,87 +338,57 @@
           ${h.email} (Slot: ${h.activeCount}/5) ${h.activeCount >= 5 ? '- PENUH' : ''}
         </option>
       `).join('');
-
       document.getElementById('modal-select-head').classList.remove('hidden');
     }
 
-    function closeAccModal() {
-      document.getElementById('modal-select-head').classList.add('hidden');
-    }
+    function closeAccModal() { document.getElementById('modal-select-head').classList.add('hidden'); }
 
     async function confirmAcc() {
       const selectedHead = document.getElementById('select-head-account').value;
-      if (!selectedHead) {
-        alert("Pilih akun Head terlebih dahulu!");
-        return;
-      }
+      if (!selectedHead) { alert("Pilih akun Head terlebih dahulu!"); return; }
 
       try {
         const response = await fetch(`${API_URL}/api/gemini/admin/approve`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: currentEmailToApprove, headAccount: selectedHead })
         });
         const result = await response.json();
-
         if (result.success) {
-          // Update slot head lokal
           const head = headAccounts.find(h => h.email === selectedHead);
           if (head) head.activeCount++;
           localStorage.setItem('rizqina_heads', JSON.stringify(headAccounts));
-
-          alert("Berhasil di-ACC!");
           closeAccModal();
           fetchAdminData();
           renderHeadAccounts();
-        } else {
-          alert(result.message || "Gagal meng-ACC.");
-        }
-      } catch (e) {
-        alert("Terjadi kesalahan koneksi server.");
-      }
+        } else { alert(result.message || "Gagal meng-ACC."); }
+      } catch (e) { alert("Terjadi kesalahan koneksi."); }
     }
 
     async function rejectAction(email) {
-      if(confirm('Tolak permintaan aktivasi ini?')) {
-        try {
-          await fetch(`${API_URL}/api/gemini/admin/reject`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-          });
-          fetchAdminData();
-        } catch (e) {
-          alert("Gagal menolak permintaan.");
-        }
+      if(confirm('Tolak permintaan aktivasi ini? PIN akan dikembalikan ke status belum terpakai.')) {
+        await fetch(`${API_URL}/api/gemini/admin/reject`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+        fetchAdminData();
       }
     }
 
     async function revocationAction(email) {
       if(confirm('Cabut akses pelanggan ini?')) {
-        try {
-          await fetch(`${API_URL}/api/gemini/admin/revoke`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-          });
-          fetchAdminData();
-        } catch (e) {
-          alert("Gagal mencabut akses.");
-        }
+        await fetch(`${API_URL}/api/gemini/admin/revoke`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+        fetchAdminData();
       }
     }
 
-    // Manajemen Head Account
     function renderHeadAccounts() {
       const grid = document.getElementById('head-accounts-grid');
+      if(headAccounts.length === 0) {
+        grid.innerHTML = `<p class="text-xs text-slate-400">Belum ada Akun Head. Klik Tambah Akun Head.</p>`;
+        return;
+      }
       grid.innerHTML = headAccounts.map(h => `
         <div class="border ${h.activeCount >= 5 ? 'border-rose-200 bg-rose-50/30' : 'border-slate-200 bg-white'} rounded-xl p-4 shadow-sm flex flex-col gap-3">
             <div class="flex justify-between items-start">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full ${h.activeCount >= 5 ? 'bg-rose-100 text-rose-600' : 'bg-blue-100 text-blue-600'} flex items-center justify-center">
-                        <i data-lucide="user" class="w-4 h-4"></i>
-                    </div>
+                    <div class="w-8 h-8 rounded-full ${h.activeCount >= 5 ? 'bg-rose-100 text-rose-600' : 'bg-blue-100 text-blue-600'} flex items-center justify-center"><i data-lucide="user" class="w-4 h-4"></i></div>
                     <div>
                         <p class="font-bold text-sm text-slate-800">${h.email}</p>
                         <p class="text-[10px] ${h.activeCount >= 5 ? 'text-rose-500 font-bold' : 'text-emerald-500 font-bold'}">${h.activeCount >= 5 ? 'Status: Penuh' : 'Status: Aktif'}</p>
@@ -513,9 +400,7 @@
                     <span class="font-medium text-slate-500">Kapasitas (Slot)</span>
                     <span class="font-bold ${h.activeCount >= 5 ? 'text-rose-600' : 'text-slate-700'}">${h.activeCount} / 5 Terisi</span>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-2">
-                    <div class="${h.activeCount >= 5 ? 'bg-rose-500' : 'bg-blue-500'} h-2 rounded-full" style="width: ${(h.activeCount / 5) * 100}%"></div>
-                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2"><div class="${h.activeCount >= 5 ? 'bg-rose-500' : 'bg-blue-500'} h-2 rounded-full" style="width: ${(h.activeCount / 5) * 100}%"></div></div>
             </div>
         </div>
       `).join('');
@@ -524,36 +409,39 @@
 
     function addHeadAccount() {
       const email = document.getElementById('new-head-email').value.trim();
-      if (!email || !email.includes('@')) {
-        alert("Masukkan email Head yang valid!");
-        return;
-      }
+      if (!email || !email.includes('@')) { alert("Masukkan email valid!"); return; }
       headAccounts.push({ email, activeCount: 0 });
       localStorage.setItem('rizqina_heads', JSON.stringify(headAccounts));
       document.getElementById('new-head-email').value = "";
       document.getElementById('modal-add-head').classList.add('hidden');
       renderHeadAccounts();
-      alert("Akun Head berhasil ditambahkan!");
     }
 
-    // Generate PIN
-    function generatePin() {
+    // Generate PIN Baru ke Cloudflare Worker
+    async function generatePin() {
         const durationSelect = document.getElementById('pin-duration');
         const duration = durationSelect.value;
         const durationLabel = durationSelect.options[durationSelect.selectedIndex].text;
         const randomString = Math.random().toString(36).substring(2, 6).toUpperCase();
         const newPin = `GEM${duration}-${randomString}`;
         
-        document.getElementById('pin-duration-label').innerText = `Paket: ${durationLabel}`;
-        document.getElementById('generated-pin').innerText = newPin;
-        document.getElementById('pin-result-modal').classList.remove('hidden');
-        document.getElementById('copy-status').classList.remove('opacity-100');
+        try {
+            await fetch(`${API_URL}/api/gemini/admin/generate-pin`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ pin: newPin, durationMonths: duration })
+            });
+
+            document.getElementById('pin-duration-label').innerText = `Paket: ${durationLabel}`;
+            document.getElementById('generated-pin').innerText = newPin;
+            document.getElementById('pin-result-modal').classList.remove('hidden');
+            document.getElementById('copy-status').classList.remove('opacity-100');
+        } catch (e) {
+            alert("Gagal menyimpan PIN ke server database.");
+        }
     }
 
-    function closePinModal() {
-        document.getElementById('pin-result-modal').classList.add('hidden');
-    }
-
+    function closePinModal() { document.getElementById('pin-result-modal').classList.add('hidden'); }
     function copyPin() {
         const pinText = document.getElementById('generated-pin').innerText;
         navigator.clipboard.writeText(pinText).then(() => {
