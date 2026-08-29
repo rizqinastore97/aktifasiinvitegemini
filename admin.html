@@ -6,110 +6,135 @@
   <title>Admin Panel - Gemini Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- TAMBAHAN: Import Font Premium dari Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .bg-gemini-gradient { background: linear-gradient(135deg, #1A73E8 0%, #9333EA 50%, #E91E63 100%); }
-    .text-gemini { background: linear-gradient(135deg, #1A73E8 0%, #9333EA 50%, #E91E63 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .text-gemini { 
+      background: linear-gradient(135deg, #1A73E8 0%, #9333EA 50%, #E91E63 100%); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   </style>
 </head>
-<body class="bg-[#F8FAFC] text-slate-800 min-h-screen font-sans antialiased">
+<body class="bg-[#F8FAFC] text-slate-800 min-h-screen antialiased selection:bg-purple-200 selection:text-purple-900 relative overflow-x-hidden">
 
-  <!-- Efek Background Halus -->
-  <div class="fixed top-0 left-0 w-full h-64 bg-gradient-to-b from-purple-100/50 to-transparent -z-10 pointer-events-none"></div>
+  <!-- Efek Cahaya Ambient Background (Konsisten dengan halaman lain) -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-300/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+  <div class="fixed bottom-0 right-0 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
-  <!-- Navbar Admin -->
-  <header class="w-full bg-white/70 backdrop-blur-xl border-b border-white/50 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+  <!-- Navbar Admin Premium -->
+  <header class="w-full bg-white/70 backdrop-blur-xl border-b border-white/50 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-5 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-lg shadow-slate-900/20">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-lg shadow-slate-900/20 relative overflow-hidden">
+          <div class="absolute inset-0 bg-white/10 rounded-xl lg:rounded-2xl"></div>
+          <i data-lucide="layout-dashboard" class="w-5 h-5 lg:w-6 lg:h-6 relative z-10"></i>
         </div>
         <div>
-          <h1 class="font-black text-lg tracking-tight text-slate-900 leading-none">ADMIN<span class="text-gemini">WORKSPACE</span></h1>
-          <p class="text-[10px] text-slate-500 font-bold uppercase mt-0.5 tracking-widest">Rizqina Store Control Panel</p>
+          <h1 class="font-black text-lg lg:text-xl tracking-tight text-slate-900 leading-none">ADMIN<span class="text-gemini">WORKSPACE</span></h1>
+          <p class="text-[9px] lg:text-[10px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Rizqina Store Control Panel</p>
         </div>
       </div>
       <div class="flex items-center gap-4">
-        <div class="hidden sm:flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100 shadow-sm">
-          <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-          <span class="text-[10px] font-black tracking-widest uppercase text-emerald-600">Sistem Online</span>
+        <div class="hidden sm:flex items-center gap-2.5 bg-emerald-50 px-5 py-2.5 rounded-full border border-emerald-100 shadow-sm shadow-emerald-500/5">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse border border-emerald-200"></div>
+          <span class="text-[10px] lg:text-xs font-black tracking-widest uppercase text-emerald-600">Sistem Online</span>
         </div>
       </div>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-8 animate-fade-up">
     
     <!-- Statistik Cepat (Premium Cards) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="bg-white/80 backdrop-blur-sm p-6 rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 flex items-center gap-5 transition-transform hover:-translate-y-1">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 text-amber-500 flex items-center justify-center shadow-inner border border-amber-200/50">
-          <i data-lucide="clock" class="w-7 h-7"></i>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
+      
+      <!-- Card: Antrean -->
+      <div class="bg-white/80 backdrop-blur-sm p-6 lg:p-7 rounded-[2rem] border border-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] flex items-center gap-5 transition-transform hover:-translate-y-1 group relative overflow-hidden">
+        <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.2rem] bg-gradient-to-br from-amber-100 to-amber-50 text-amber-500 flex items-center justify-center shadow-inner border border-amber-200/50 group-hover:scale-110 transition-transform">
+          <i data-lucide="clock" class="w-7 h-7 lg:w-8 lg:h-8"></i>
         </div>
         <div>
-          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Menunggu ACC</p>
-          <h4 id="stat-pending-count" class="text-3xl font-black text-slate-800 mt-1">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Antrean</span></h4>
+          <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">Menunggu ACC</p>
+          <h4 id="stat-pending-count" class="text-3xl lg:text-4xl font-black text-slate-800 mt-1 tracking-tighter">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Antrean</span></h4>
         </div>
       </div>
       
-      <div class="bg-white/80 backdrop-blur-sm p-6 rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 flex items-center gap-5 transition-transform hover:-translate-y-1">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner border border-emerald-200/50">
-          <i data-lucide="users" class="w-7 h-7"></i>
+      <!-- Card: Total Aktif -->
+      <div class="bg-white/80 backdrop-blur-sm p-6 lg:p-7 rounded-[2rem] border border-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] flex items-center gap-5 transition-transform hover:-translate-y-1 group relative overflow-hidden">
+        <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.2rem] bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner border border-emerald-200/50 group-hover:scale-110 transition-transform">
+          <i data-lucide="users" class="w-7 h-7 lg:w-8 lg:h-8"></i>
         </div>
         <div>
-          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Akun Aktif</p>
-          <h4 id="stat-active-count" class="text-3xl font-black text-slate-800 mt-1">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Pelanggan</span></h4>
+          <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">Total Akun Aktif</p>
+          <h4 id="stat-active-count" class="text-3xl lg:text-4xl font-black text-slate-800 mt-1 tracking-tighter">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Pelanggan</span></h4>
         </div>
       </div>
       
-      <div class="bg-white/80 backdrop-blur-sm p-6 rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 flex flex-col justify-center relative overflow-hidden transition-transform hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-100 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 relative z-10 flex items-center gap-2">
-          <i data-lucide="key" class="w-4 h-4 text-purple-500"></i> Generate PIN Cepat
+      <!-- Card: Generate PIN -->
+      <div class="bg-white border border-purple-100/50 p-6 lg:p-7 rounded-[2rem] shadow-[0_15px_40px_-10px_rgba(147,51,234,0.08)] flex flex-col justify-center relative overflow-hidden transition-transform hover:-translate-y-1">
+        <div class="absolute top-0 right-0 w-40 h-40 bg-purple-100/60 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
+        <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 relative z-10 flex items-center gap-2">
+          <i data-lucide="key" class="w-4 h-4 lg:w-5 lg:h-5 text-purple-500"></i> Generate PIN Cepat
         </p>
-        <div class="flex gap-2 relative z-10">
-          <select id="pin-duration" class="text-sm border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 w-full font-bold text-slate-700 shadow-inner">
-            <option value="1">1 Bulan</option>
-            <option value="2">2 Bulan</option>
-            <option value="3">3 Bulan</option>
-            <option value="6">6 Bulan</option>
-            <option value="18">18 Bulan</option>
+        <div class="flex gap-2.5 relative z-10">
+          <select id="pin-duration" class="text-sm font-bold border border-slate-200 rounded-2xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-300 w-full text-slate-700 shadow-inner appearance-none cursor-pointer">
+            <option value="1">1 Bulan Premium</option>
+            <option value="2">2 Bulan Premium</option>
+            <option value="3">3 Bulan Premium</option>
+            <option value="6">6 Bulan Premium</option>
+            <option value="18" class="text-pink-600 font-black">18 Bulan (PROMO)</option>
           </select>
-          <button onclick="generatePin()" class="bg-gemini-gradient hover:opacity-90 text-white px-5 py-2 rounded-xl text-sm font-black transition shadow-lg shadow-purple-500/30 active:scale-95">Buat</button>
+          <button onclick="generatePin()" class="bg-gemini-gradient hover:opacity-90 text-white px-6 py-3 rounded-2xl text-sm font-black transition shadow-lg shadow-purple-500/30 active:scale-95 flex items-center justify-center shrink-0">
+            Buat
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Area Tabel Utama -->
-    <div class="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] shadow-xl shadow-slate-200/50 overflow-hidden">
+    <!-- Area Tabel Utama (Premium Glassmorphism) -->
+    <div class="bg-white/80 backdrop-blur-md border border-white rounded-[2.2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
       
       <!-- Tab Navigasi -->
-      <div class="flex border-b border-slate-100 bg-slate-50/50 overflow-x-auto no-scrollbar p-2 gap-2">
-        <button id="tab-antrean" onclick="switchTab('antrean')" class="px-6 py-3 text-sm font-black text-purple-700 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center gap-2 transition-all whitespace-nowrap">
-          <i data-lucide="inbox" class="w-4 h-4"></i> Antrean Validasi <span id="badge-antrean" class="bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span>
+      <div class="flex border-b border-slate-100 bg-slate-50/50 overflow-x-auto no-scrollbar p-3 gap-2.5 lg:p-4 lg:gap-3">
+        <button id="tab-antrean" onclick="switchTab('antrean')" class="px-6 py-3.5 text-sm font-black text-purple-700 bg-white rounded-[1.2rem] shadow-sm border border-purple-100 flex items-center gap-2.5 transition-all whitespace-nowrap">
+          <i data-lucide="inbox" class="w-4 h-4 lg:w-5 lg:h-5"></i> Antrean Validasi 
+          <span id="badge-antrean" class="bg-rose-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-sm shadow-rose-500/30">0</span>
         </button>
-        <button id="tab-database" onclick="switchTab('database')" class="px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/50 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap">
-          <i data-lucide="database" class="w-4 h-4"></i> Database Aktif
+        <button id="tab-database" onclick="switchTab('database')" class="px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap">
+          <i data-lucide="database" class="w-4 h-4 lg:w-5 lg:h-5"></i> Database Aktif
         </button>
-        <button id="tab-head-accounts" onclick="switchTab('head-accounts')" class="px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/50 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap sm:ml-auto">
-          <i data-lucide="users" class="w-4 h-4"></i> Kelola Head Account
+        <button id="tab-head-accounts" onclick="switchTab('head-accounts')" class="px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap sm:ml-auto">
+          <i data-lucide="users" class="w-4 h-4 lg:w-5 lg:h-5"></i> Kelola Head Account
         </button>
       </div>
 
       <!-- ================= SECTION ANTREAN ================= -->
       <div id="section-antrean" class="overflow-x-auto block">
         <table class="w-full text-left text-sm text-slate-600">
-          <thead class="bg-slate-50/50 text-[10px] uppercase text-slate-400 font-bold border-b border-slate-100 tracking-widest">
+          <thead class="bg-slate-50/80 text-[10px] uppercase text-slate-400 font-black border-b border-slate-100 tracking-[0.2em]">
             <tr>
-              <th scope="col" class="px-6 py-4">Waktu</th>
-              <th scope="col" class="px-6 py-4">Info Pelanggan</th>
-              <th scope="col" class="px-6 py-4">Paket</th>
-              <th scope="col" class="px-6 py-4">PIN Code</th>
-              <th scope="col" class="px-6 py-4 text-center">Tindakan</th>
+              <th scope="col" class="px-6 py-5">Waktu Masuk</th>
+              <th scope="col" class="px-6 py-5">Info Pelanggan</th>
+              <th scope="col" class="px-6 py-5">Pilihan Paket</th>
+              <th scope="col" class="px-6 py-5">Kode PIN</th>
+              <th scope="col" class="px-6 py-5 text-center">Tindakan Admin</th>
             </tr>
           </thead>
-          <tbody id="table-antrean-body" class="divide-y divide-slate-50">
+          <tbody id="table-antrean-body" class="divide-y divide-slate-100">
             <!-- Data Antrean dimuat dari Cloudflare -->
           </tbody>
         </table>
@@ -118,16 +143,16 @@
       <!-- ================= SECTION DATABASE AKTIF ================= -->
       <div id="section-database" class="overflow-x-auto hidden">
         <table class="w-full text-left text-sm text-slate-600">
-          <thead class="bg-slate-50/50 text-[10px] uppercase text-slate-400 font-bold border-b border-slate-100 tracking-widest">
+          <thead class="bg-slate-50/80 text-[10px] uppercase text-slate-400 font-black border-b border-slate-100 tracking-[0.2em]">
             <tr>
-              <th scope="col" class="px-6 py-4">Pelanggan</th>
-              <th scope="col" class="px-6 py-4">Durasi & Sisa</th>
-              <th scope="col" class="px-6 py-4 text-purple-600">Di-invite Oleh (Head)</th>
-              <th scope="col" class="px-6 py-4">Status</th>
-              <th scope="col" class="px-6 py-4 text-center">Kelola</th>
+              <th scope="col" class="px-6 py-5">Pelanggan Aktif</th>
+              <th scope="col" class="px-6 py-5">Durasi & Sisa Waktu</th>
+              <th scope="col" class="px-6 py-5 text-purple-600">Di-invite Oleh (Head)</th>
+              <th scope="col" class="px-6 py-5">Status Layanan</th>
+              <th scope="col" class="px-6 py-5 text-center">Kelola Akses</th>
             </tr>
           </thead>
-          <tbody id="table-database-body" class="divide-y divide-slate-50">
+          <tbody id="table-database-body" class="divide-y divide-slate-100">
             <!-- Data Aktif dimuat dari Cloudflare -->
           </tbody>
         </table>
@@ -135,17 +160,17 @@
 
       <!-- ================= SECTION KELOLA HEAD ACCOUNT ================= -->
       <div id="section-head-accounts" class="hidden">
-        <div class="p-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div class="p-8 lg:p-10">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-5">
                 <div>
-                    <h3 class="font-black text-slate-800 text-xl tracking-tight">Email Head Account</h3>
-                    <p class="text-xs text-slate-500 mt-1 font-medium">Pantau dan kelola sisa slot family link dari akun utama.</p>
+                    <h3 class="font-black text-slate-900 text-2xl tracking-tight">Database Head Account</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium leading-relaxed">Pantau dan kelola sisa kuota (slot family link) dari setiap akun utama Kakak.</p>
                 </div>
-                <button onclick="document.getElementById('modal-add-head').classList.remove('hidden')" class="bg-white border border-slate-200 hover:border-purple-300 text-purple-700 px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm hover:shadow-md flex items-center gap-2 whitespace-nowrap">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Tambah Akun
+                <button onclick="document.getElementById('modal-add-head').classList.remove('hidden')" class="bg-white border-2 border-purple-100 hover:border-purple-300 text-purple-700 px-6 py-3 rounded-2xl text-xs lg:text-sm font-black transition-all shadow-sm hover:shadow-lg hover:shadow-purple-500/10 flex items-center gap-2 whitespace-nowrap active:scale-95">
+                    <i data-lucide="plus" class="w-5 h-5"></i> Tambah Akun Baru
                 </button>
             </div>
-            <div id="head-accounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div id="head-accounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Head Accounts dimuat dari LocalStorage -->
             </div>
         </div>
@@ -153,78 +178,90 @@
     </div>
   </main>
 
-  <!-- ================= SEMUA MODAL SAMA SEPERTI SEBELUMNYA ================= -->
+  <!-- ================= MODALS (Dengan Desain Premium) ================= -->
+  
   <!-- Modal Generate PIN -->
   <div id="pin-result-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-      <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closePinModal()"></div>
-      <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm p-8 text-center space-y-5">
-          <div class="w-16 h-16 mx-auto bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center border border-emerald-100"><i data-lucide="check-circle-2" class="w-8 h-8"></i></div>
+      <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closePinModal()"></div>
+      <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-sm p-10 text-center space-y-6 overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100/50 rounded-full blur-2xl pointer-events-none -z-10"></div>
+          
+          <div class="w-20 h-20 mx-auto bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center border-4 border-emerald-100/50 shadow-inner">
+            <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+          </div>
           <div>
-              <h3 class="font-black text-slate-900 text-xl tracking-tight">PIN Dibuat!</h3>
-              <p id="pin-duration-label" class="text-xs text-slate-500 font-bold mt-1">Paket: ...</p>
+              <h3 class="font-black text-slate-900 text-2xl tracking-tight">PIN Dibuat!</h3>
+              <p id="pin-duration-label" class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Paket: ...</p>
           </div>
-          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 relative group cursor-pointer shadow-inner" onclick="copyPin()">
+          <div class="bg-slate-50 hover:bg-slate-100 p-6 rounded-3xl border border-slate-200 relative group cursor-pointer shadow-inner transition-colors" onclick="copyPin()">
               <p id="generated-pin" class="text-2xl font-mono font-black text-transparent bg-clip-text bg-gemini-gradient tracking-widest">GEM-...</p>
-              <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-purple-500"><i data-lucide="copy" class="w-4 h-4"></i></div>
+              <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-purple-500 bg-white p-1.5 rounded-lg shadow-sm"><i data-lucide="copy" class="w-4 h-4"></i></div>
           </div>
-          <p id="copy-status" class="text-[10px] text-emerald-600 font-bold opacity-0 transition-opacity uppercase tracking-widest">Tersalin!</p>
-          <button onclick="closePinModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition">Tutup</button>
+          <p id="copy-status" class="text-[10px] text-emerald-600 font-black opacity-0 transition-opacity uppercase tracking-widest">Berhasil Disalin!</p>
+          <button onclick="closePinModal()" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black rounded-2xl text-sm transition active:scale-95 uppercase tracking-widest">Tutup Panel</button>
       </div>
   </div>
 
   <!-- Modal Tambah Head -->
   <div id="modal-add-head" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="document.getElementById('modal-add-head').classList.add('hidden')"></div>
-    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md p-8 space-y-6">
-      <div class="border-b border-slate-100 pb-4">
-        <h3 class="font-black text-slate-900 text-xl tracking-tight">Tambah Akun Head</h3>
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="document.getElementById('modal-add-head').classList.add('hidden')"></div>
+    <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 space-y-7 overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-100/50 rounded-full blur-3xl pointer-events-none z-0"></div>
+      
+      <div class="border-b border-slate-100 pb-5 relative z-10">
+        <h3 class="font-black text-slate-900 text-2xl tracking-tight">Tambah Akun Head</h3>
+        <p class="text-xs font-medium text-slate-500 mt-1">Masukkan email akun induk Google One.</p>
       </div>
-      <div class="space-y-3">
-        <label class="text-xs font-bold text-slate-700 block uppercase tracking-widest">Email Akun Head</label>
+      <div class="space-y-3 relative z-10">
+        <label class="text-[10px] font-bold text-slate-700 block uppercase tracking-widest">Alamat Email (Gmail)</label>
         <div class="relative">
-          <i data-lucide="mail" class="w-5 h-5 text-slate-400 absolute left-4 top-3.5"></i>
-          <input type="email" id="new-head-email" placeholder="contoh: headbaru@gmail.com" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:bg-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 font-medium" />
+          <i data-lucide="mail" class="w-5 h-5 text-slate-400 absolute left-4 top-4"></i>
+          <input type="email" id="new-head-email" placeholder="contoh: headbaru@gmail.com" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-500/10 shadow-inner" />
         </div>
       </div>
-      <div class="flex gap-3 pt-2">
-        <button onclick="document.getElementById('modal-add-head').classList.add('hidden')" class="w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition uppercase tracking-widest">Batal</button>
-        <button onclick="addHeadAccount()" class="w-full py-3.5 bg-gemini-gradient text-white font-bold rounded-xl text-xs shadow-lg shadow-purple-500/30 transition uppercase tracking-widest hover:opacity-90">Simpan</button>
+      <div class="flex gap-3 pt-3 relative z-10">
+        <button onclick="document.getElementById('modal-add-head').classList.add('hidden')" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-black rounded-2xl text-xs transition uppercase tracking-widest">Batal</button>
+        <button onclick="addHeadAccount()" class="w-full py-4 bg-gemini-gradient text-white font-black rounded-2xl text-xs shadow-xl shadow-purple-500/30 transition uppercase tracking-widest hover:opacity-90 active:scale-95">Simpan Data</button>
       </div>
     </div>
   </div>
 
   <!-- Modal ACC -->
   <div id="modal-select-head" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeAccModal()"></div>
-    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md p-8 space-y-6">
-      <div class="border-b border-slate-100 pb-4">
-        <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-4 border border-purple-100"><i data-lucide="link" class="w-7 h-7"></i></div>
-        <h3 class="font-black text-slate-900 text-xl tracking-tight">Pilih Akun Head</h3>
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeAccModal()"></div>
+    <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 space-y-7 overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-40 h-40 bg-emerald-100/40 rounded-full blur-3xl pointer-events-none z-0"></div>
+      
+      <div class="border-b border-slate-100 pb-5 relative z-10">
+        <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-5 border border-purple-100 shadow-sm"><i data-lucide="link" class="w-8 h-8"></i></div>
+        <h3 class="font-black text-slate-900 text-2xl tracking-tight">Pilih Akun Head</h3>
+        <p class="text-xs font-medium text-slate-500 mt-1">Tentukan head account untuk mengirim invite.</p>
       </div>
-      <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+      <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-inner relative z-10">
         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Target Pelanggan</p>
-        <p id="modal-target-email" class="font-black text-slate-800 text-base mt-1">...</p>
-        <p id="modal-target-paket" class="text-xs text-purple-600 font-bold mt-1">...</p>
+        <p id="modal-target-email" class="font-black text-slate-800 text-lg mt-1 tracking-tight">...</p>
+        <p id="modal-target-paket" class="text-xs text-transparent bg-clip-text bg-gemini-gradient font-black mt-1 uppercase tracking-widest">...</p>
       </div>
-      <div class="space-y-3">
-        <label class="text-xs font-bold text-slate-700 block uppercase tracking-widest">Gunakan Head Account</label>
+      <div class="space-y-3 relative z-10">
+        <label class="text-[10px] font-bold text-slate-700 block uppercase tracking-widest">Gunakan Head Account Ini</label>
         <div class="relative">
-          <i data-lucide="users" class="w-5 h-5 text-slate-400 absolute left-4 top-3.5"></i>
-          <select id="select-head-account" class="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:bg-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/20 font-bold appearance-none cursor-pointer shadow-inner">
+          <i data-lucide="users" class="w-5 h-5 text-slate-400 absolute left-4 top-4"></i>
+          <select id="select-head-account" class="w-full pl-12 pr-10 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-800 focus:bg-white focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-500/10 font-bold appearance-none cursor-pointer shadow-inner">
           </select>
-          <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 absolute right-4 top-3.5 pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 absolute right-4 top-4 pointer-events-none"></i>
         </div>
       </div>
-      <div class="flex gap-3 pt-2">
-        <button onclick="closeAccModal()" class="w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition uppercase tracking-widest">Batal</button>
-        <button onclick="confirmAcc()" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-xs shadow-lg shadow-emerald-500/30 transition flex items-center justify-center gap-2 uppercase tracking-widest">
-          <i data-lucide="check" class="w-4 h-4"></i> ACC Sekarang
+      <div class="flex gap-3 pt-3 relative z-10">
+        <button onclick="closeAccModal()" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-black rounded-2xl text-xs transition uppercase tracking-widest">Batal</button>
+        <button onclick="confirmAcc()" class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl text-xs shadow-xl shadow-emerald-500/30 transition flex items-center justify-center gap-2 uppercase tracking-widest active:scale-95">
+          <i data-lucide="check" class="w-5 h-5"></i> ACC Sekarang
         </button>
       </div>
     </div>
   </div>
 
   <script>
+    // URL API Worker (Tetap dipertahankan fungsionalitasnya)
     const API_URL = "https://gemini-api-rizqina.rizqinastore97.workers.dev";
     let headAccounts = JSON.parse(localStorage.getItem('rizqina_heads')) || [];
     let currentEmailToApprove = null;
@@ -253,21 +290,22 @@
     function renderAntrean(list) {
       const tbody = document.getElementById('table-antrean-body');
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400 font-medium">✨ Bersih! Tidak ada antrean validasi saat ini.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center text-slate-400 font-medium">✨ Bersih! Tidak ada antrean validasi saat ini.</td></tr>`;
         return;
       }
+      // Update styling khusus baris tabel antrean
       tbody.innerHTML = list.map(item => `
-        <tr class="hover:bg-slate-50/50 transition">
-          <td class="px-6 py-5 whitespace-nowrap text-xs font-bold text-slate-500">${new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+        <tr class="hover:bg-slate-50/80 transition group">
+          <td class="px-6 py-5 whitespace-nowrap text-xs font-bold text-slate-400 group-hover:text-purple-500 transition-colors">${new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
           <td class="px-6 py-5">
-            <div class="font-black text-slate-800 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> ${item.email}</div>
-            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-black border border-emerald-100 transition tracking-wider"><i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}</a>
+            <div class="font-black text-slate-800 flex items-center gap-2.5"><i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> ${item.email}</div>
+            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-[10px] font-black border border-emerald-100 transition tracking-wider shadow-sm"><i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}</a>
           </td>
-          <td class="px-6 py-5"><span class="bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 font-black px-3.5 py-1.5 rounded-lg text-[10px] border border-purple-200 shadow-sm uppercase tracking-widest">${item.durationMonths} BULAN</span></td>
-          <td class="px-6 py-5"><span class="font-mono font-black text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">${item.pin}</span></td>
-          <td class="px-6 py-5 flex flex-col sm:flex-row items-center justify-center gap-2">
-            <button onclick="openAccModal('${item.email}', ${item.durationMonths})" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-md shadow-emerald-500/20 active:scale-95"><i data-lucide="check" class="w-4 h-4"></i> ACC</button>
-            <button onclick="rejectAction('${item.email}')" class="w-full sm:w-auto bg-white hover:bg-rose-50 text-rose-500 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 border border-rose-200 active:scale-95"><i data-lucide="x" class="w-4 h-4"></i> Tolak</button>
+          <td class="px-6 py-5"><span class="bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 font-black px-4 py-2 rounded-xl text-[10px] border border-purple-100 shadow-sm uppercase tracking-[0.2em]">${item.durationMonths} BULAN</span></td>
+          <td class="px-6 py-5"><span class="font-mono font-black text-slate-700 bg-slate-100/80 px-4 py-2 rounded-xl border border-slate-200 tracking-wider">${item.pin}</span></td>
+          <td class="px-6 py-5 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+            <button onclick="openAccModal('${item.email}', ${item.durationMonths})" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 active:scale-95 uppercase tracking-widest"><i data-lucide="check" class="w-4 h-4"></i> ACC</button>
+            <button onclick="rejectAction('${item.email}')" class="w-full sm:w-auto bg-white hover:bg-rose-50 text-rose-500 px-5 py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 border border-rose-200 active:scale-95 uppercase tracking-widest"><i data-lucide="x" class="w-4 h-4"></i> Tolak</button>
           </td>
         </tr>
       `).join('');
@@ -277,22 +315,23 @@
     function renderDatabase(list) {
       const tbody = document.getElementById('table-database-body');
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-slate-400 font-medium">Belum ada pelanggan aktif di database.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center text-slate-400 font-medium">Belum ada pelanggan aktif di database saat ini.</td></tr>`;
         return;
       }
+      // Update styling khusus baris tabel database
       tbody.innerHTML = list.map(item => `
-        <tr class="hover:bg-slate-50/50 transition">
+        <tr class="hover:bg-slate-50/80 transition group">
           <td class="px-6 py-5">
-            <div class="font-black text-slate-800 flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-slate-400"></i> ${item.email}</div>
-            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-md bg-slate-100 hover:bg-emerald-50 text-slate-500 hover:text-emerald-600 text-[10px] font-black transition tracking-wider"><i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}</a>
+            <div class="font-black text-slate-800 flex items-center gap-2.5"><i data-lucide="user" class="w-4 h-4 text-slate-400 group-hover:text-emerald-500 transition-colors"></i> ${item.email}</div>
+            <a href="https://wa.me/${item.wa}" target="_blank" class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-emerald-50 text-slate-500 hover:text-emerald-600 text-[10px] font-black border border-slate-100 transition tracking-wider shadow-sm"><i data-lucide="phone" class="w-3 h-3"></i> ${item.wa}</a>
           </td>
           <td class="px-6 py-5">
-            <p class="text-xs font-black text-slate-700">${item.durationMonths} Bulan</p>
-            <p class="text-[10px] text-emerald-500 font-bold mt-1">Sisa ${item.sisaHari} Hari</p>
+            <p class="text-xs font-black text-slate-700 tracking-wide">${item.durationMonths} Bulan Premium</p>
+            <p class="text-[10px] text-emerald-500 font-black mt-1.5 bg-emerald-50 inline-block px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest">Sisa ${item.sisaHari} Hari</p>
           </td>
-          <td class="px-6 py-5"><span class="text-[11px] font-bold text-purple-700 border border-purple-100 bg-purple-50/50 px-3 py-1.5 rounded-lg">${item.headAccount}</span></td>
-          <td class="px-6 py-5"><span class="bg-emerald-100/50 border border-emerald-200 text-emerald-700 font-black px-3 py-1.5 rounded-lg text-[10px] flex items-center gap-1.5 w-max tracking-widest uppercase"><div class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_5px_#10b981]"></div> Aktif</span></td>
-          <td class="px-6 py-5 text-center"><button onclick="revocationAction('${item.email}')" class="text-rose-400 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 mx-auto transition uppercase tracking-widest"><i data-lucide="user-x" class="w-3.5 h-3.5"></i> Cabut</button></td>
+          <td class="px-6 py-5"><span class="text-[10px] font-black text-purple-700 border border-purple-100 bg-purple-50/50 px-3 py-1.5 rounded-lg">${item.headAccount}</span></td>
+          <td class="px-6 py-5"><span class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-black px-3.5 py-1.5 rounded-lg text-[10px] flex items-center gap-2 w-max tracking-[0.2em] uppercase shadow-sm"><div class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_5px_#10b981]"></div> Aktif</span></td>
+          <td class="px-6 py-5 text-center"><button onclick="revocationAction('${item.email}')" class="text-rose-400 hover:text-rose-600 hover:bg-rose-50 px-4 py-2 rounded-xl text-[10px] font-black flex items-center justify-center gap-1.5 mx-auto transition uppercase tracking-widest active:scale-95"><i data-lucide="user-x" class="w-4 h-4"></i> Cabut</button></td>
         </tr>
       `).join('');
       if(typeof lucide !== 'undefined') lucide.createIcons();
@@ -303,25 +342,25 @@
           const btn = document.getElementById('tab-' + tab);
           const sec = document.getElementById('section-' + tab);
           if (tab === tabName) {
-              btn.className = "px-6 py-3 text-sm font-black text-purple-700 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center gap-2 transition-all whitespace-nowrap" + (tab === 'head-accounts' ? " sm:ml-auto" : "");
+              btn.className = "px-6 py-3.5 text-sm font-black text-purple-700 bg-white rounded-[1.2rem] shadow-sm border border-purple-100 flex items-center gap-2.5 transition-all whitespace-nowrap" + (tab === 'head-accounts' ? " sm:ml-auto" : "");
               sec.classList.remove('hidden');
           } else {
-              btn.className = "px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/50 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap" + (tab === 'head-accounts' ? " sm:ml-auto" : "");
+              btn.className = "px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap" + (tab === 'head-accounts' ? " sm:ml-auto" : "");
               sec.classList.add('hidden');
           }
       });
     }
 
-    // Modal ACC
+    // Modal ACC & Functions
     function openAccModal(email, duration) {
       if(headAccounts.length === 0) { alert("Silakan Tambah Akun Head terlebih dahulu di Tab Kelola Head Account!"); return; }
       currentEmailToApprove = email;
       currentDurationToApprove = duration;
       document.getElementById('modal-target-email').innerText = email;
-      document.getElementById('modal-target-paket').innerText = duration + " Bulan Premium";
+      document.getElementById('modal-target-paket').innerText = duration + " BULAN PREMIUM";
       
       document.getElementById('select-head-account').innerHTML = headAccounts.map(h => `
-        <option value="${h.email}" ${h.activeCount >= 5 ? 'disabled' : ''}>${h.email} (Slot: ${h.activeCount}/5) ${h.activeCount >= 5 ? '- PENUH' : ''}</option>
+        <option value="${h.email}" ${h.activeCount >= 5 ? 'disabled' : ''}>${h.email} (Kuota: ${h.activeCount}/5) ${h.activeCount >= 5 ? '- PENUH' : ''}</option>
       `).join('');
       document.getElementById('modal-select-head').classList.remove('hidden');
     }
@@ -347,14 +386,14 @@
     }
 
     async function rejectAction(email) {
-      if(confirm('Tolak permintaan aktivasi ini? PIN akan dikembalikan.')) {
+      if(confirm('Tolak permintaan aktivasi ini? PIN akan dikembalikan ke status UNUSED.')) {
         await fetch(`${API_URL}/api/gemini/admin/reject`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
         fetchAdminData();
       }
     }
 
     async function revocationAction(email) {
-      if(confirm('Cabut akses pelanggan ini secara permanen?')) {
+      if(confirm('Cabut akses pelanggan ini secara permanen? Data akan dihapus dari database.')) {
         await fetch(`${API_URL}/api/gemini/admin/revoke`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
         fetchAdminData();
       }
@@ -362,22 +401,25 @@
 
     function renderHeadAccounts() {
       const grid = document.getElementById('head-accounts-grid');
-      if(headAccounts.length === 0) { grid.innerHTML = `<p class="text-sm font-medium text-slate-400">Belum ada Akun Head terdaftar.</p>`; return; }
+      if(headAccounts.length === 0) { grid.innerHTML = `<div class="col-span-full p-8 text-center bg-slate-50 border border-dashed border-slate-200 rounded-3xl"><p class="text-sm font-bold text-slate-400">Belum ada Akun Head terdaftar. Klik tombol Tambah Akun Baru di atas.</p></div>`; return; }
+      
+      // Update styling khusus kartu Head Account (Rounded premium, hover effect)
       grid.innerHTML = headAccounts.map(h => `
-        <div class="bg-white border ${h.activeCount >= 5 ? 'border-rose-200' : 'border-slate-100'} rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl ${h.activeCount >= 5 ? 'bg-rose-50 text-rose-500' : 'bg-purple-50 text-purple-600'} flex items-center justify-center"><i data-lucide="user" class="w-5 h-5"></i></div>
+        <div class="bg-white border ${h.activeCount >= 5 ? 'border-rose-200 shadow-rose-500/5' : 'border-slate-100 hover:border-purple-200'} rounded-[1.5rem] p-7 shadow-sm hover:shadow-lg transition-all flex flex-col gap-5 relative overflow-hidden group">
+            ${h.activeCount >= 5 ? '<div class="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-full blur-xl pointer-events-none"></div>' : ''}
+            <div class="flex items-center gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-[1rem] ${h.activeCount >= 5 ? 'bg-rose-50 text-rose-500 border border-rose-100' : 'bg-purple-50 text-purple-600 border border-purple-100 group-hover:bg-purple-600 group-hover:text-white transition-colors'} flex items-center justify-center"><i data-lucide="user" class="w-6 h-6"></i></div>
                 <div>
-                    <p class="font-black text-sm text-slate-800">${h.email}</p>
-                    <p class="text-[10px] ${h.activeCount >= 5 ? 'text-rose-500' : 'text-emerald-500'} font-bold uppercase tracking-widest mt-0.5">${h.activeCount >= 5 ? 'SLOT PENUH' : 'TERSEDIA'}</p>
+                    <p class="font-black text-sm lg:text-base text-slate-800 tracking-tight">${h.email}</p>
+                    <p class="text-[10px] ${h.activeCount >= 5 ? 'text-rose-500 bg-rose-50' : 'text-emerald-500 bg-emerald-50'} inline-block px-2.5 py-0.5 rounded border ${h.activeCount >= 5 ? 'border-rose-100' : 'border-emerald-100'} font-black uppercase tracking-widest mt-1.5">${h.activeCount >= 5 ? 'KUOTA PENUH' : 'TERSEDIA'}</p>
                 </div>
             </div>
-            <div>
-                <div class="flex justify-between text-xs mb-2">
-                    <span class="font-bold text-slate-400 uppercase tracking-widest">Kapasitas</span>
-                    <span class="font-black ${h.activeCount >= 5 ? 'text-rose-600' : 'text-slate-700'}">${h.activeCount} / 5</span>
+            <div class="relative z-10 bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">
+                <div class="flex justify-between text-xs mb-3">
+                    <span class="font-black text-slate-400 uppercase tracking-widest text-[10px]">Kapasitas Terisi</span>
+                    <span class="font-black ${h.activeCount >= 5 ? 'text-rose-600' : 'text-slate-700'}">${h.activeCount} / 5 Slot</span>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden"><div class="${h.activeCount >= 5 ? 'bg-rose-500' : 'bg-gemini-gradient'} h-2.5 rounded-full" style="width: ${(h.activeCount / 5) * 100}%"></div></div>
+                <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner"><div class="${h.activeCount >= 5 ? 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.8)]' : 'bg-gemini-gradient'} h-3 rounded-full transition-all duration-500" style="width: ${(h.activeCount / 5) * 100}%"></div></div>
             </div>
         </div>
       `).join('');
@@ -386,7 +428,7 @@
 
     function addHeadAccount() {
       const email = document.getElementById('new-head-email').value.trim();
-      if (!email || !email.includes('@')) { alert("Masukkan email valid!"); return; }
+      if (!email || !email.includes('@')) { alert("Masukkan email Gmail yang valid!"); return; }
       headAccounts.push({ email, activeCount: 0 });
       localStorage.setItem('rizqina_heads', JSON.stringify(headAccounts));
       document.getElementById('new-head-email').value = "";
@@ -406,7 +448,7 @@
             document.getElementById('generated-pin').innerText = newPin;
             document.getElementById('pin-result-modal').classList.remove('hidden');
             document.getElementById('copy-status').classList.remove('opacity-100');
-        } catch (e) { alert("Gagal menyimpan PIN."); }
+        } catch (e) { alert("Gagal menyimpan PIN ke database."); }
     }
 
     function closePinModal() { document.getElementById('pin-result-modal').classList.add('hidden'); }
