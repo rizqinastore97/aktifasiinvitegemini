@@ -194,14 +194,13 @@
     </main>
   </div>
 
-  <!-- SCRIPT KEAMANAN & PROTEKSI TINGKAT LANJUT -->
+  <!-- SCRIPT KEAMANAN YANG AMAN UNTUK SUBDOMAIN -->
   <script>
-    // 1. Proteksi Domain (Anti-Curi HTML: Jika dicuri & di-host di tempat lain, layar langsung rusak/error)
+    // 1. Proteksi Domain (Menggunakan .includes agar subdomain seperti gemini.digitalhubstore.my.id diizinkan)
     (function() {
       const allowedDomain = "digitalhubstore.my.id";
       const currentHost = window.location.hostname;
-      // Jika dibuka secara lokal untuk testing (localhost/127.0.0.1) atau di domain sendiri, biarkan lolos.
-      if (currentHost !== "localhost" && currentHost !== "127.0.0.1" && !currentHost.endsWith(allowedDomain)) {
+      if (currentHost !== "localhost" && currentHost !== "127.0.0.1" && !currentHost.includes(allowedDomain)) {
         document.body.innerHTML = `
           <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#0f172a;color:#ef4444;font-family:sans-serif;text-align:center;padding:20px;">
             <div>
@@ -214,10 +213,8 @@
       }
     })();
 
-    // 2. Cegah Klik Kanan (Inspect Prevention)
+    // 2. Cegah Klik Kanan & Inspect
     document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // 3. Cegah Tombol Pintasan Inspect (F12, Ctrl+Shift+I, Ctrl+U, dll)
     document.addEventListener('keydown', function(event) {
       if (event.key === 'F12' || 
           (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || 
@@ -228,7 +225,7 @@
       }
     });
 
-    // 4. Sembunyikan Endpoint API (Di-encode agar tidak mudah dibaca bot scraper)
+    // 3. Sembunyikan Endpoint API (Base64)
     const encodedApi = "aHR0cHM6Ly9nZW1pbmktYXBpLXJpenFpbmEucml6cWluYXN0b3JlOTcud29ya2Vycy5kZXY=";
     const API_URL = atob(encodedApi);
 
