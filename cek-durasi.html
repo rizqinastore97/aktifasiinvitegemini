@@ -164,38 +164,9 @@
     </main>
   </div>
 
-  <!-- SCRIPT KEAMANAN & SKrip UTAMA -->
+  <!-- SCRIPT AMAN & STABIL (Tanpa blokiran ketat yang bikin galat) -->
   <script>
-    // 1. Proteksi Domain (Anti-Curi HTML: Hancur jika di-host di tempat lain)
-    (function() {
-      const allowedDomain = "digitalhubstore.my.id";
-      const currentHost = window.location.hostname;
-      if (currentHost !== "localhost" && currentHost !== "127.0.0.1" && !currentHost.endsWith(allowedDomain)) {
-        document.body.innerHTML = `
-          <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#0f172a;color:#ef4444;font-family:sans-serif;text-align:center;padding:20px;">
-            <div>
-              <h1 style="font-size:32px;font-weight:900;margin-bottom:10px;">403 - Akses Ditolak</h1>
-              <p style="color:#94a3b8;font-size:14px;">Domain ini tidak memiliki izin untuk menjalankan skrip resmi Gemini Pro Store.</p>
-            </div>
-          </div>
-        `;
-        throw new Error("Unauthorized Domain Execution");
-      }
-    })();
-
-    // 2. Cegah Klik Kanan & Inspect
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'F12' || 
-          (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) || 
-          (event.ctrlKey && event.key === 'U')) {
-        event.preventDefault();
-        alert('Fitur pengembang dinonaktifkan demi keamanan sistem!');
-        return false;
-      }
-    });
-
-    // 3. Sembunyikan Endpoint API (Di-encode base64)
+    // Enkripsi Endpoint API agar aman dari bot scraper
     const encodedApi = "aHR0cHM6Ly9nZW1pbmktYXBpLXJpenFpbmEucml6cWluYXN0b3JlOTcud29ya2Vycy5kZXY=";
     const API_URL = atob(encodedApi);
 
