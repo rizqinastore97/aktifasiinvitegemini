@@ -7,12 +7,31 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- TAMBAHAN: Import Font Premium dari Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
+    /* PROTEKSI ANTI-SELECT & ANTI-COPY */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+    
+    input, textarea, select {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+
+    img { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
+    button img, a img, .cursor-pointer img { pointer-events: auto; }
+
+    /* STYLING UTAMA */
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .bg-gemini-gradient { background: linear-gradient(135deg, #1A73E8 0%, #9333EA 50%, #E91E63 100%); }
     .text-gemini { 
@@ -31,152 +50,200 @@
 </head>
 <body class="bg-[#F8FAFC] text-slate-800 min-h-screen antialiased selection:bg-purple-200 selection:text-purple-900 relative overflow-x-hidden">
 
-  <!-- Efek Cahaya Ambient Background (Konsisten dengan halaman lain) -->
+  <!-- Efek Cahaya Ambient Background -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-300/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
   <div class="fixed bottom-0 right-0 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
-  <!-- Navbar Admin Premium -->
-  <header class="w-full bg-white/70 backdrop-blur-xl border-b border-white/50 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-lg shadow-slate-900/20 relative overflow-hidden">
-          <div class="absolute inset-0 bg-white/10 rounded-xl lg:rounded-2xl"></div>
-          <i data-lucide="layout-dashboard" class="w-5 h-5 lg:w-6 lg:h-6 relative z-10"></i>
-        </div>
-        <div>
-          <h1 class="font-black text-lg lg:text-xl tracking-tight text-slate-900 leading-none">ADMIN<span class="text-gemini">WORKSPACE</span></h1>
-          <p class="text-[9px] lg:text-[10px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Rizqina Store Control Panel</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="hidden sm:flex items-center gap-2.5 bg-emerald-50 px-5 py-2.5 rounded-full border border-emerald-100 shadow-sm shadow-emerald-500/5">
-          <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse border border-emerald-200"></div>
-          <span class="text-[10px] lg:text-xs font-black tracking-widest uppercase text-emerald-600">Sistem Online</span>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-8 animate-fade-up">
+  <!-- ================= LAYAR LOGIN ADMIN ================= -->
+  <div id="admin-login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#F8FAFC] backdrop-blur-xl transition-all duration-500">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-300/30 rounded-full blur-[80px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-300/30 rounded-full blur-[80px] pointer-events-none"></div>
     
-    <!-- Statistik Cepat (Premium Cards) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-      
-      <!-- Card: Antrean -->
-      <div class="bg-white/80 backdrop-blur-sm p-6 lg:p-7 rounded-[2rem] border border-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] flex items-center gap-5 transition-transform hover:-translate-y-1 group relative overflow-hidden">
-        <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.2rem] bg-gradient-to-br from-amber-100 to-amber-50 text-amber-500 flex items-center justify-center shadow-inner border border-amber-200/50 group-hover:scale-110 transition-transform">
-          <i data-lucide="clock" class="w-7 h-7 lg:w-8 lg:h-8"></i>
+    <div class="relative bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-100 z-10 animate-fade-up">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 mx-auto bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-slate-900/20 mb-4">
+          <i data-lucide="lock" class="w-8 h-8"></i>
         </div>
-        <div>
-          <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">Menunggu ACC</p>
-          <h4 id="stat-pending-count" class="text-3xl lg:text-4xl font-black text-slate-800 mt-1 tracking-tighter">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Antrean</span></h4>
+        <h2 class="text-2xl font-black tracking-tight text-slate-900">Admin Login</h2>
+        <p class="text-xs text-slate-500 font-medium mt-1">Masukkan kredensial khusus administrator.</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Username</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="login-user" placeholder="Ketik username..." class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-500/10 transition-all shadow-inner" required autocomplete="off" />
+          </div>
+        </div>
+        <div class="space-y-1.5 pb-2">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Password</label>
+          <div class="relative">
+            <i data-lucide="key-round" class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input type="password" id="login-pass" placeholder="Ketik password..." class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-500/10 transition-all shadow-inner" required />
+          </div>
+        </div>
+        <button type="submit" class="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white font-black rounded-2xl text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2">
+          <i data-lucide="log-in" class="w-4 h-4"></i> Masuk Sistem
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= KONTEN UTAMA ADMIN (Awalnya Disembunyikan) ================= -->
+  <div id="main-admin-content" class="hidden flex-col min-h-screen">
+    
+    <!-- Navbar Admin Premium -->
+    <header class="w-full bg-white/70 backdrop-blur-xl border-b border-white/50 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-lg shadow-slate-900/20 relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 rounded-xl lg:rounded-2xl"></div>
+            <i data-lucide="layout-dashboard" class="w-5 h-5 lg:w-6 lg:h-6 relative z-10"></i>
+          </div>
+          <div>
+            <h1 class="font-black text-lg lg:text-xl tracking-tight text-slate-900 leading-none">ADMIN<span class="text-gemini">WORKSPACE</span></h1>
+            <p class="text-[9px] lg:text-[10px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Rizqina Store Control Panel</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <button onclick="logoutAdmin()" class="flex items-center gap-2 bg-rose-50 hover:bg-rose-100 text-rose-600 px-4 py-2 rounded-xl text-xs font-bold transition-colors">
+            <i data-lucide="log-out" class="w-4 h-4"></i> <span class="hidden sm:inline">Logout</span>
+          </button>
+          <div class="hidden sm:flex items-center gap-2.5 bg-emerald-50 px-5 py-2.5 rounded-full border border-emerald-100 shadow-sm shadow-emerald-500/5">
+            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse border border-emerald-200"></div>
+            <span class="text-[10px] lg:text-xs font-black tracking-widest uppercase text-emerald-600">Sistem Online</span>
+          </div>
         </div>
       </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 space-y-8 animate-fade-up">
       
-      <!-- Card: Total Aktif -->
-      <div class="bg-white/80 backdrop-blur-sm p-6 lg:p-7 rounded-[2rem] border border-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] flex items-center gap-5 transition-transform hover:-translate-y-1 group relative overflow-hidden">
-        <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.2rem] bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner border border-emerald-200/50 group-hover:scale-110 transition-transform">
-          <i data-lucide="users" class="w-7 h-7 lg:w-8 lg:h-8"></i>
+      <!-- Statistik Cepat (Premium Cards) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
+        
+        <!-- Card: Antrean -->
+        <div class="bg-white/80 backdrop-blur-sm p-6 lg:p-7 rounded-[2rem] border border-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] flex items-center gap-5 transition-transform hover:-translate-y-1 group relative overflow-hidden">
+          <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.2rem] bg-gradient-to-br from-amber-100 to-amber-50 text-amber-500 flex items-center justify-center shadow-inner border border-amber-200/50 group-hover:scale-110 transition-transform">
+            <i data-lucide="clock" class="w-7 h-7 lg:w-8 lg:h-8"></i>
+          </div>
+          <div>
+            <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">Menunggu ACC</p>
+            <h4 id="stat-pending-count" class="text-3xl lg:text-4xl font-black text-slate-800 mt-1 tracking-tighter">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Antrean</span></h4>
+          </div>
         </div>
-        <div>
-          <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">Total Akun Aktif</p>
-          <h4 id="stat-active-count" class="text-3xl lg:text-4xl font-black text-slate-800 mt-1 tracking-tighter">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Pelanggan</span></h4>
+        
+        <!-- Card: Total Aktif -->
+        <div class="bg-white/80 backdrop-blur-sm p-6 lg:p-7 rounded-[2rem] border border-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] flex items-center gap-5 transition-transform hover:-translate-y-1 group relative overflow-hidden">
+          <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-[1.2rem] bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner border border-emerald-200/50 group-hover:scale-110 transition-transform">
+            <i data-lucide="users" class="w-7 h-7 lg:w-8 lg:h-8"></i>
+          </div>
+          <div>
+            <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">Total Akun Aktif</p>
+            <h4 id="stat-active-count" class="text-3xl lg:text-4xl font-black text-slate-800 mt-1 tracking-tighter">0 <span class="text-sm font-medium text-slate-400 tracking-normal">Pelanggan</span></h4>
+          </div>
+        </div>
+        
+        <!-- Card: Generate PIN -->
+        <div class="bg-white border border-purple-100/50 p-6 lg:p-7 rounded-[2rem] shadow-[0_15px_40px_-10px_rgba(147,51,234,0.08)] flex flex-col justify-center relative overflow-hidden transition-transform hover:-translate-y-1">
+          <div class="absolute top-0 right-0 w-40 h-40 bg-purple-100/60 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
+          <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 relative z-10 flex items-center gap-2">
+            <i data-lucide="key" class="w-4 h-4 lg:w-5 lg:h-5 text-purple-500"></i> Generate PIN Cepat
+          </p>
+          <div class="flex gap-2.5 relative z-10">
+            <select id="pin-duration" class="text-sm font-bold border border-slate-200 rounded-2xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-300 w-full text-slate-700 shadow-inner appearance-none cursor-pointer">
+              <option value="1">1 Bulan Premium</option>
+              <option value="2">2 Bulan Premium</option>
+              <option value="3">3 Bulan Premium</option>
+              <option value="6">6 Bulan Premium</option>
+              <option value="18" class="text-pink-600 font-black">18 Bulan (PROMO)</option>
+            </select>
+            <button onclick="generatePin()" class="bg-gemini-gradient hover:opacity-90 text-white px-6 py-3 rounded-2xl text-sm font-black transition shadow-lg shadow-purple-500/30 active:scale-95 flex items-center justify-center shrink-0">
+              Buat
+            </button>
+          </div>
         </div>
       </div>
-      
-      <!-- Card: Generate PIN -->
-      <div class="bg-white border border-purple-100/50 p-6 lg:p-7 rounded-[2rem] shadow-[0_15px_40px_-10px_rgba(147,51,234,0.08)] flex flex-col justify-center relative overflow-hidden transition-transform hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-40 h-40 bg-purple-100/60 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
-        <p class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 relative z-10 flex items-center gap-2">
-          <i data-lucide="key" class="w-4 h-4 lg:w-5 lg:h-5 text-purple-500"></i> Generate PIN Cepat
-        </p>
-        <div class="flex gap-2.5 relative z-10">
-          <select id="pin-duration" class="text-sm font-bold border border-slate-200 rounded-2xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-300 w-full text-slate-700 shadow-inner appearance-none cursor-pointer">
-            <option value="1">1 Bulan Premium</option>
-            <option value="2">2 Bulan Premium</option>
-            <option value="3">3 Bulan Premium</option>
-            <option value="6">6 Bulan Premium</option>
-            <option value="18" class="text-pink-600 font-black">18 Bulan (PROMO)</option>
-          </select>
-          <button onclick="generatePin()" class="bg-gemini-gradient hover:opacity-90 text-white px-6 py-3 rounded-2xl text-sm font-black transition shadow-lg shadow-purple-500/30 active:scale-95 flex items-center justify-center shrink-0">
-            Buat
+
+      <!-- Area Tabel Utama (Premium Glassmorphism) -->
+      <div class="bg-white/80 backdrop-blur-md border border-white rounded-[2.2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
+        
+        <!-- Tab Navigasi -->
+        <div class="flex border-b border-slate-100 bg-slate-50/50 overflow-x-auto no-scrollbar p-3 gap-2.5 lg:p-4 lg:gap-3">
+          <button id="tab-antrean" onclick="switchTab('antrean')" class="px-6 py-3.5 text-sm font-black text-purple-700 bg-white rounded-[1.2rem] shadow-sm border border-purple-100 flex items-center gap-2.5 transition-all whitespace-nowrap">
+            <i data-lucide="inbox" class="w-4 h-4 lg:w-5 lg:h-5"></i> Antrean Validasi 
+            <span id="badge-antrean" class="bg-rose-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-sm shadow-rose-500/30">0</span>
+          </button>
+          <button id="tab-database" onclick="switchTab('database')" class="px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap">
+            <i data-lucide="database" class="w-4 h-4 lg:w-5 lg:h-5"></i> Database Aktif
+          </button>
+          <button id="tab-head-accounts" onclick="switchTab('head-accounts')" class="px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap sm:ml-auto">
+            <i data-lucide="users" class="w-4 h-4 lg:w-5 lg:h-5"></i> Kelola Head Account
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Area Tabel Utama (Premium Glassmorphism) -->
-    <div class="bg-white/80 backdrop-blur-md border border-white rounded-[2.2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
-      
-      <!-- Tab Navigasi -->
-      <div class="flex border-b border-slate-100 bg-slate-50/50 overflow-x-auto no-scrollbar p-3 gap-2.5 lg:p-4 lg:gap-3">
-        <button id="tab-antrean" onclick="switchTab('antrean')" class="px-6 py-3.5 text-sm font-black text-purple-700 bg-white rounded-[1.2rem] shadow-sm border border-purple-100 flex items-center gap-2.5 transition-all whitespace-nowrap">
-          <i data-lucide="inbox" class="w-4 h-4 lg:w-5 lg:h-5"></i> Antrean Validasi 
-          <span id="badge-antrean" class="bg-rose-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-sm shadow-rose-500/30">0</span>
-        </button>
-        <button id="tab-database" onclick="switchTab('database')" class="px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap">
-          <i data-lucide="database" class="w-4 h-4 lg:w-5 lg:h-5"></i> Database Aktif
-        </button>
-        <button id="tab-head-accounts" onclick="switchTab('head-accounts')" class="px-6 py-3.5 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-white/80 rounded-[1.2rem] transition-all flex items-center gap-2.5 whitespace-nowrap sm:ml-auto">
-          <i data-lucide="users" class="w-4 h-4 lg:w-5 lg:h-5"></i> Kelola Head Account
-        </button>
-      </div>
+        <!-- ================= SECTION ANTREAN ================= -->
+        <div id="section-antrean" class="overflow-x-auto block">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-slate-50/80 text-[10px] uppercase text-slate-400 font-black border-b border-slate-100 tracking-[0.2em]">
+              <tr>
+                <th scope="col" class="px-6 py-5">Waktu Masuk</th>
+                <th scope="col" class="px-6 py-5">Info Pelanggan</th>
+                <th scope="col" class="px-6 py-5">Pilihan Paket</th>
+                <th scope="col" class="px-6 py-5">Kode PIN</th>
+                <th scope="col" class="px-6 py-5 text-center">Tindakan Admin</th>
+              </tr>
+            </thead>
+            <tbody id="table-antrean-body" class="divide-y divide-slate-100">
+              <!-- Data Antrean dimuat dari Cloudflare -->
+            </tbody>
+          </table>
+        </div>
 
-      <!-- ================= SECTION ANTREAN ================= -->
-      <div id="section-antrean" class="overflow-x-auto block">
-        <table class="w-full text-left text-sm text-slate-600">
-          <thead class="bg-slate-50/80 text-[10px] uppercase text-slate-400 font-black border-b border-slate-100 tracking-[0.2em]">
-            <tr>
-              <th scope="col" class="px-6 py-5">Waktu Masuk</th>
-              <th scope="col" class="px-6 py-5">Info Pelanggan</th>
-              <th scope="col" class="px-6 py-5">Pilihan Paket</th>
-              <th scope="col" class="px-6 py-5">Kode PIN</th>
-              <th scope="col" class="px-6 py-5 text-center">Tindakan Admin</th>
-            </tr>
-          </thead>
-          <tbody id="table-antrean-body" class="divide-y divide-slate-100">
-            <!-- Data Antrean dimuat dari Cloudflare -->
-          </tbody>
-        </table>
-      </div>
+        <!-- ================= SECTION DATABASE AKTIF ================= -->
+        <div id="section-database" class="overflow-x-auto hidden">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-slate-50/80 text-[10px] uppercase text-slate-400 font-black border-b border-slate-100 tracking-[0.2em]">
+              <tr>
+                <th scope="col" class="px-6 py-5">Pelanggan Aktif</th>
+                <th scope="col" class="px-6 py-5">Durasi & Sisa Waktu</th>
+                <th scope="col" class="px-6 py-5 text-purple-600">Di-invite Oleh (Head)</th>
+                <th scope="col" class="px-6 py-5">Status Layanan</th>
+                <th scope="col" class="px-6 py-5 text-center">Kelola Akses</th>
+              </tr>
+            </thead>
+            <tbody id="table-database-body" class="divide-y divide-slate-100">
+              <!-- Data Aktif dimuat dari Cloudflare -->
+            </tbody>
+          </table>
+        </div>
 
-      <!-- ================= SECTION DATABASE AKTIF ================= -->
-      <div id="section-database" class="overflow-x-auto hidden">
-        <table class="w-full text-left text-sm text-slate-600">
-          <thead class="bg-slate-50/80 text-[10px] uppercase text-slate-400 font-black border-b border-slate-100 tracking-[0.2em]">
-            <tr>
-              <th scope="col" class="px-6 py-5">Pelanggan Aktif</th>
-              <th scope="col" class="px-6 py-5">Durasi & Sisa Waktu</th>
-              <th scope="col" class="px-6 py-5 text-purple-600">Di-invite Oleh (Head)</th>
-              <th scope="col" class="px-6 py-5">Status Layanan</th>
-              <th scope="col" class="px-6 py-5 text-center">Kelola Akses</th>
-            </tr>
-          </thead>
-          <tbody id="table-database-body" class="divide-y divide-slate-100">
-            <!-- Data Aktif dimuat dari Cloudflare -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- ================= SECTION KELOLA HEAD ACCOUNT ================= -->
-      <div id="section-head-accounts" class="hidden">
-        <div class="p-8 lg:p-10">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-5">
-                <div>
-                    <h3 class="font-black text-slate-900 text-2xl tracking-tight">Database Head Account</h3>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium leading-relaxed">Pantau dan kelola sisa kuota (slot family link) dari setiap akun utama Kakak.</p>
-                </div>
-                <button onclick="document.getElementById('modal-add-head').classList.remove('hidden')" class="bg-white border-2 border-purple-100 hover:border-purple-300 text-purple-700 px-6 py-3 rounded-2xl text-xs lg:text-sm font-black transition-all shadow-sm hover:shadow-lg hover:shadow-purple-500/10 flex items-center gap-2 whitespace-nowrap active:scale-95">
-                    <i data-lucide="plus" class="w-5 h-5"></i> Tambah Akun Baru
-                </button>
-            </div>
-            <div id="head-accounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Head Accounts dimuat dari LocalStorage -->
-            </div>
+        <!-- ================= SECTION KELOLA HEAD ACCOUNT ================= -->
+        <div id="section-head-accounts" class="hidden">
+          <div class="p-8 lg:p-10">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-5">
+                  <div>
+                      <h3 class="font-black text-slate-900 text-2xl tracking-tight">Database Head Account</h3>
+                      <p class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium leading-relaxed">Pantau dan kelola sisa kuota (slot family link) dari setiap akun utama Kakak.</p>
+                  </div>
+                  <button onclick="document.getElementById('modal-add-head').classList.remove('hidden')" class="bg-white border-2 border-purple-100 hover:border-purple-300 text-purple-700 px-6 py-3 rounded-2xl text-xs lg:text-sm font-black transition-all shadow-sm hover:shadow-lg hover:shadow-purple-500/10 flex items-center gap-2 whitespace-nowrap active:scale-95">
+                      <i data-lucide="plus" class="w-5 h-5"></i> Tambah Akun Baru
+                  </button>
+              </div>
+              <div id="head-accounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <!-- Head Accounts dimuat dari LocalStorage -->
+              </div>
+          </div>
         </div>
       </div>
+    </main>
+
+    <!-- HAK CIPTA (Sistem Kunci Keamanan) -->
+    <div id="digitalhub-copyright" style="text-align:center; padding:15px; font-size:11px; color:#94a3b8; border-top:1px solid #e2e8f0; margin-top:auto;">
+      &copy; 2026 <b>DigitalHub Store Manager</b>. All Rights Reserved. Protected System.
     </div>
-  </main>
+  </div>
 
   <!-- ================= MODALS (Dengan Desain Premium) ================= -->
   
@@ -260,20 +327,73 @@
     </div>
   </div>
 
+  <!-- SCRIPT API & LOGIN LOGIC -->
   <script>
-    // URL API Worker (Tetap dipertahankan fungsionalitasnya)
+    // URL API Worker
     const API_URL = "https://gemini-api-rizqina.rizqinastore97.workers.dev";
     let headAccounts = JSON.parse(localStorage.getItem('rizqina_heads')) || [];
     let currentEmailToApprove = null;
     let currentDurationToApprove = 0;
+    let dashboardInterval = null;
+    let isLoggedIn = sessionStorage.getItem('admin_logged_in') === 'true';
 
+    // Inisialisasi awal saat halaman dimuat
     window.onload = function() {
-      fetchAdminData();
-      renderHeadAccounts();
-      setInterval(fetchAdminData, 5000); 
+      if(typeof lucide !== 'undefined') lucide.createIcons();
+      
+      // Jika sudah login, langsung buka dashboard
+      if (isLoggedIn) {
+        showDashboard();
+      }
     };
 
+    // Fungsi Login Admin
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value.trim();
+
+      if (user === 'admin' && pass === 'superadmin') {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        isLoggedIn = true;
+        showDashboard();
+      } else {
+        alert("Username atau Password salah! Akses Ditolak.");
+      }
+    }
+
+    // Fungsi Logout Admin
+    function logoutAdmin() {
+      sessionStorage.removeItem('admin_logged_in');
+      isLoggedIn = false;
+      if (dashboardInterval) clearInterval(dashboardInterval);
+      
+      document.getElementById('main-admin-content').classList.add('hidden');
+      document.getElementById('main-admin-content').classList.remove('flex');
+      document.getElementById('admin-login-screen').classList.remove('hidden');
+      document.getElementById('admin-login-screen').classList.add('flex');
+      
+      // Bersihkan form
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+    }
+
+    // Fungsi Menampilkan Dashboard
+    function showDashboard() {
+      document.getElementById('admin-login-screen').classList.add('hidden');
+      document.getElementById('admin-login-screen').classList.remove('flex');
+      
+      document.getElementById('main-admin-content').classList.remove('hidden');
+      document.getElementById('main-admin-content').classList.add('flex');
+
+      fetchAdminData();
+      renderHeadAccounts();
+      if (dashboardInterval) clearInterval(dashboardInterval);
+      dashboardInterval = setInterval(fetchAdminData, 5000); 
+    }
+
     async function fetchAdminData() {
+      if(!isLoggedIn) return;
       try {
         const response = await fetch(`${API_URL}/api/gemini/admin/data`);
         const result = await response.json();
@@ -293,7 +413,6 @@
         tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center text-slate-400 font-medium">✨ Bersih! Tidak ada antrean validasi saat ini.</td></tr>`;
         return;
       }
-      // Update styling khusus baris tabel antrean
       tbody.innerHTML = list.map(item => `
         <tr class="hover:bg-slate-50/80 transition group">
           <td class="px-6 py-5 whitespace-nowrap text-xs font-bold text-slate-400 group-hover:text-purple-500 transition-colors">${new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
@@ -318,7 +437,6 @@
         tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center text-slate-400 font-medium">Belum ada pelanggan aktif di database saat ini.</td></tr>`;
         return;
       }
-      // Update styling khusus baris tabel database
       tbody.innerHTML = list.map(item => `
         <tr class="hover:bg-slate-50/80 transition group">
           <td class="px-6 py-5">
@@ -403,7 +521,6 @@
       const grid = document.getElementById('head-accounts-grid');
       if(headAccounts.length === 0) { grid.innerHTML = `<div class="col-span-full p-8 text-center bg-slate-50 border border-dashed border-slate-200 rounded-3xl"><p class="text-sm font-bold text-slate-400">Belum ada Akun Head terdaftar. Klik tombol Tambah Akun Baru di atas.</p></div>`; return; }
       
-      // Update styling khusus kartu Head Account (Rounded premium, hover effect)
       grid.innerHTML = headAccounts.map(h => `
         <div class="bg-white border ${h.activeCount >= 5 ? 'border-rose-200 shadow-rose-500/5' : 'border-slate-100 hover:border-purple-200'} rounded-[1.5rem] p-7 shadow-sm hover:shadow-lg transition-all flex flex-col gap-5 relative overflow-hidden group">
             ${h.activeCount >= 5 ? '<div class="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-full blur-xl pointer-events-none"></div>' : ''}
@@ -458,8 +575,51 @@
             setTimeout(() => { document.getElementById('copy-status').classList.remove('opacity-100'); }, 2000);
         });
     }
+  </script>
 
-    if(typeof lucide !== 'undefined') lucide.createIcons();
+  <!-- SKRIP PROTEKSI KEAMANAN LEVEL TINGGI -->
+  <script>
+    // 1. Cegah Klik Kanan (Inspect Prevention)
+    document.addEventListener('contextmenu', e => e.preventDefault()); 
+
+    // 2. Blokir Shortcut Keyboard Developer Tools
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+        (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+        (e.ctrlKey && e.keyCode === 83)    // Ctrl+S
+      ) {
+        e.preventDefault();
+        alert('Aksi dilarang! Sistem keamanan DigitalHub aktif.');
+        window.location.href = "about:blank";
+        return false;
+      }
+    });
+
+    // 3. Deteksi Paksaan Inspect Element via Ukuran Layar
+    setInterval(function() {
+      const threshold = 160;
+      if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:20vh;color:red;font-family:sans-serif;'>⚠️ AKSES DITOLAK\nDeveloper Tools terdeteksi aktif.</h1>";
+        throw new Error("Security Violation: Inspector Detected.");
+      }
+    }, 1000);
+
+    // 4. Proteksi Hak Cipta (Anti-Tamper)
+    setInterval(function() {
+      const copyrightEl = document.getElementById('digitalhub-copyright');
+      
+      // Jika elemen hak cipta dihapus, diubah teksnya, atau disembunyikan secara paksa
+      if (!copyrightEl || !copyrightEl.innerText.includes("DigitalHub Store Manager") || copyrightEl.style.display === 'none' || copyrightEl.style.visibility === 'hidden') {
+        
+        document.body.innerHTML = "<div style='background:black;color:red;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:monospace;text-align:center;padding:20px;'><h1>CRITICAL SYSTEM ERROR [Code: 403-TAMPER]</h1><p>Pelanggaran Hak Cipta terdeteksi: Elemen Hak Cipta Website telah dimodifikasi atau dihapus secara ilegal. Sistem dikunci.</p></div>";
+        
+        localStorage.clear();
+        sessionStorage.clear();
+        throw new Error("CRITICAL_TAMPER_PROTECTION_TRIGGERED");
+      }
+    }, 2000);
   </script>
 </body>
 </html>
