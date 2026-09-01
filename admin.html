@@ -225,7 +225,7 @@
               <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-5">
                   <div>
                       <h3 class="font-black text-slate-900 text-2xl tracking-tight">Database Head Account</h3>
-                      <p class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium leading-relaxed">Pantau dan kelola sisa kuota (slot family link) dari setiap akun utama Kakak.</p>
+                      <p class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium leading-relaxed">Akun Head sekarang tersimpan aman di Database Server agar tidak hilang antar perangkat.</p>
                   </div>
                   <button onclick="document.getElementById('modal-add-head').classList.remove('hidden')" class="bg-white border-2 border-purple-100 hover:border-purple-300 text-purple-700 px-6 py-3 rounded-2xl text-xs lg:text-sm font-black transition-all shadow-sm hover:shadow-lg hover:shadow-purple-500/10 flex items-center gap-2 whitespace-nowrap active:scale-95">
                       <i data-lucide="plus" class="w-5 h-5"></i> Tambah Akun Baru
@@ -275,7 +275,7 @@
       <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-100/50 rounded-full blur-3xl pointer-events-none z-0"></div>
       <div class="border-b border-slate-100 pb-5 relative z-10">
         <h3 class="font-black text-slate-900 text-2xl tracking-tight">Tambah Akun Head</h3>
-        <p class="text-xs font-medium text-slate-500 mt-1">Masukkan email akun induk Google One.</p>
+        <p class="text-xs font-medium text-slate-500 mt-1">Simpan akun induk ke database server.</p>
       </div>
       <div class="space-y-3 relative z-10">
         <label class="text-[10px] font-bold text-slate-700 block uppercase tracking-widest">Alamat Email (Gmail)</label>
@@ -286,7 +286,7 @@
       </div>
       <div class="flex gap-3 pt-3 relative z-10">
         <button onclick="document.getElementById('modal-add-head').classList.add('hidden')" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-black rounded-2xl text-xs transition uppercase tracking-widest">Batal</button>
-        <button onclick="addHeadAccount()" class="w-full py-4 bg-gemini-gradient text-white font-black rounded-2xl text-xs shadow-xl shadow-purple-500/30 transition uppercase tracking-widest hover:opacity-90 active:scale-95">Simpan Data</button>
+        <button id="btn-save-head" onclick="addHeadAccount()" class="w-full py-4 bg-gemini-gradient text-white font-black rounded-2xl text-xs shadow-xl shadow-purple-500/30 transition uppercase tracking-widest hover:opacity-90 active:scale-95">Simpan Data</button>
       </div>
     </div>
   </div>
@@ -305,7 +305,6 @@
       <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-inner relative z-10 flex justify-between items-center">
         <div>
           <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Target Pelanggan</p>
-          <!-- FITUR BARU: TOMBOL COPY DI DALAM MODAL ACC -->
           <div class="flex items-center gap-2 mt-1">
             <p id="modal-target-email" class="font-black text-slate-800 text-lg tracking-tight">...</p>
             <button onclick="copyToClipboard(currentEmailToApprove); alert('Email disalin: ' + currentEmailToApprove);" class="bg-purple-100 hover:bg-purple-200 text-purple-600 p-1.5 rounded-lg transition-colors shadow-sm" title="Copy Email Cepat">
@@ -335,28 +334,20 @@
 
   <!-- SCRIPT UTAMA SISTEM -->
   <script>
-    // URL API Worker
     const API_URL = "https://gemini-api-rizqina.rizqinastore97.workers.dev";
     
-    // Perbaikan Storage Head Accounts (Aman dan Permanen)
+    // VARIABEL GLOBAL
     let headAccounts = [];
-    try {
-        const storedHeads = localStorage.getItem('rizqina_heads_v2');
-        if(storedHeads) headAccounts = JSON.parse(storedHeads);
-    } catch(e) { headAccounts = []; }
-
     let currentEmailToApprove = null;
     let currentDurationToApprove = 0;
     let dashboardInterval = null;
     let isLoggedIn = sessionStorage.getItem('admin_logged_in') === 'true';
 
-    // Inisialisasi awal saat halaman dimuat
     window.onload = function() {
       if(typeof lucide !== 'undefined') lucide.createIcons();
       if (isLoggedIn) showDashboard();
     };
 
-    // FUNGSI COPY CLIPBOARD (ANTI GAGAL)
     function copyToClipboard(text) {
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).catch(()=>{});
@@ -374,7 +365,6 @@
       }
     }
 
-    // Fungsi Login Admin
     function handleAdminLogin(e) {
       e.preventDefault();
       const user = document.getElementById('login-user').value.trim();
@@ -388,7 +378,6 @@
       }
     }
 
-    // Fungsi Logout Admin
     function logoutAdmin() {
       sessionStorage.removeItem('admin_logged_in');
       isLoggedIn = false;
@@ -403,7 +392,6 @@
       document.getElementById('login-pass').value = '';
     }
 
-    // Fungsi Menampilkan Dashboard
     function showDashboard() {
       document.getElementById('admin-login-screen').classList.add('hidden');
       document.getElementById('admin-login-screen').classList.remove('flex');
@@ -411,11 +399,82 @@
       document.getElementById('main-admin-content').classList.remove('hidden');
       document.getElementById('main-admin-content').classList.add('flex');
 
-      renderHeadAccounts(); // Render Head Accounts immediately
+      fetchHeadAccounts(); // AMBIL DATA HEAD DARI DATABASE
       fetchAdminData();
       if (dashboardInterval) clearInterval(dashboardInterval);
       dashboardInterval = setInterval(fetchAdminData, 5000); 
     }
+
+    // ==========================================
+    // SISTEM FETCH DATABASE UNTUK HEAD ACCOUNTS
+    // ==========================================
+    async function fetchHeadAccounts() {
+      if(!isLoggedIn) return;
+      try {
+        const response = await fetch(`${API_URL}/api/gemini/admin/heads`);
+        const result = await response.json();
+        if (result.success) {
+          headAccounts = result.data || [];
+          renderHeadAccounts();
+        }
+      } catch (e) {
+        console.error("Gagal memuat Head Accounts dari server, pastikan API Worker sudah dikonfigurasi.");
+      }
+    }
+
+    async function addHeadAccount() {
+      const email = document.getElementById('new-head-email').value.trim();
+      if (!email || !email.includes('@')) { alert("Masukkan email Gmail yang valid!"); return; }
+      
+      const btn = document.getElementById('btn-save-head');
+      const originalText = btn.innerText;
+      btn.innerText = "Menyimpan...";
+      btn.disabled = true;
+
+      try {
+        // SIMPAN KE DATABASE API
+        const res = await fetch(`${API_URL}/api/gemini/admin/heads`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email })
+        });
+        const result = await res.json();
+        
+        if (result.success) {
+          document.getElementById('new-head-email').value = "";
+          document.getElementById('modal-add-head').classList.add('hidden');
+          fetchHeadAccounts(); // Refresh data dari server
+        } else {
+          alert(result.message || "Gagal menyimpan akun head.");
+        }
+      } catch (e) {
+        alert("Error koneksi jaringan. Gagal menyimpan ke server.");
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    async function deleteHeadAccount(email) {
+      if(confirm(`Yakin ingin menghapus Akun Head: ${email} secara permanen dari Database?`)) {
+        try {
+          const res = await fetch(`${API_URL}/api/gemini/admin/heads`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email: email })
+          });
+          const result = await res.json();
+          if (result.success) {
+              fetchHeadAccounts(); // Refresh data dari server
+          } else {
+              alert(result.message || "Gagal menghapus akun head.");
+          }
+        } catch (e) {
+            alert("Error koneksi jaringan.");
+        }
+      }
+    }
+    // ==========================================
 
     async function fetchAdminData() {
       if(!isLoggedIn) return;
@@ -444,7 +503,6 @@
           <td class="px-6 py-5">
             <div class="font-black text-slate-800 flex items-center gap-2">
               <i data-lucide="mail" class="w-4 h-4 text-slate-400"></i> ${item.email}
-              <!-- TOMBOL COPY GMAIL -->
               <button onclick="copyToClipboard('${item.email}'); alert('Email disalin: ${item.email}');" class="bg-slate-100 hover:bg-purple-100 text-slate-400 hover:text-purple-600 p-1.5 rounded-md transition-colors shadow-sm ml-1" title="Copy Email">
                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               </button>
@@ -498,10 +556,9 @@
               sec.classList.add('hidden');
           }
       });
-      if(tabName === 'head-accounts') renderHeadAccounts();
+      if(tabName === 'head-accounts') fetchHeadAccounts();
     }
 
-    // Modal ACC & Functions
     function openAccModal(email, duration) {
       if(headAccounts.length === 0) { alert("Silakan Tambah Akun Head terlebih dahulu di Tab Kelola Head Account!"); return; }
       currentEmailToApprove = email;
@@ -517,7 +574,6 @@
 
     function closeAccModal() { document.getElementById('modal-select-head').classList.add('hidden'); }
 
-    // FITUR: AUTO OPEN GOOGLE FAMILY + BYPASS POP-UP BLOCKER
     async function confirmAcc() {
       const selectedHead = document.getElementById('select-head-account').value;
       if (!selectedHead) { alert("Pilih akun Head!"); return; }
@@ -527,7 +583,6 @@
       btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Memproses...`;
       btn.disabled = true;
 
-      // Buka tab kosong SEBELUM proses await agar browser tidak memblokir Pop-up
       const familyTab = window.open("about:blank", "_blank");
 
       try {
@@ -535,27 +590,20 @@
         const result = await res.json();
         
         if (result.success) {
-          // Update Kuota Head
-          const head = headAccounts.find(h => h.email === selectedHead);
-          if (head) head.activeCount++;
-          localStorage.setItem('rizqina_heads_v2', JSON.stringify(headAccounts));
           
           closeAccModal();
           fetchAdminData();
-          renderHeadAccounts();
+          fetchHeadAccounts(); // Update kuota head dari database
 
-          // Auto Copy Gmail Pelanggan
           copyToClipboard(currentEmailToApprove);
 
-          // Arahkan Tab yang baru dibuka ke URL Google Family
           if(familyTab) {
               familyTab.location.href = "https://myaccount.google.com/family/details";
           }
           
-          // Notifikasi Sukses
           alert(`✅ BERHASIL DI-ACC!\n\nEmail: ${currentEmailToApprove}\n(Email sudah otomatis tercopy)\n\nSilakan langsung tekan CTRL+V di Tab Google Family yang baru saja terbuka.`);
         } else { 
-          if(familyTab) familyTab.close(); // Tutup tab jika gagal
+          if(familyTab) familyTab.close(); 
           alert(result.message); 
         }
       } catch (e) { 
@@ -582,7 +630,6 @@
       }
     }
 
-    // FUNGSI KELOLA HEAD ACCOUNT (Menampilkan & Menghapus)
     function renderHeadAccounts() {
       const grid = document.getElementById('head-accounts-grid');
       if(headAccounts.length === 0) { 
@@ -617,27 +664,6 @@
       if(typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    function addHeadAccount() {
-      const email = document.getElementById('new-head-email').value.trim();
-      if (!email || !email.includes('@')) { alert("Masukkan email Gmail yang valid!"); return; }
-      
-      if(headAccounts.find(h => h.email === email)) { alert("Email Head ini sudah ada di database!"); return; }
-
-      headAccounts.push({ email, activeCount: 0 });
-      localStorage.setItem('rizqina_heads_v2', JSON.stringify(headAccounts));
-      document.getElementById('new-head-email').value = "";
-      document.getElementById('modal-add-head').classList.add('hidden');
-      renderHeadAccounts();
-    }
-
-    function deleteHeadAccount(email) {
-        if(confirm(`Yakin ingin menghapus Akun Head: ${email}?\n(Ini hanya menghapus dari daftar panel admin, tidak membatalkan yang sudah diinvite)`)) {
-            headAccounts = headAccounts.filter(h => h.email !== email);
-            localStorage.setItem('rizqina_heads_v2', JSON.stringify(headAccounts));
-            renderHeadAccounts();
-        }
-    }
-
     async function generatePin() {
         const durationSelect = document.getElementById('pin-duration');
         const duration = durationSelect.value;
@@ -661,7 +687,7 @@
     }
   </script>
 
-  <!-- SKRIP PROTEKSI KEAMANAN LEVEL TINGGI (SUDAH DIPERBAIKI) -->
+  <!-- SKRIP PROTEKSI KEAMANAN LEVEL TINGGI -->
   <script>
     document.addEventListener('contextmenu', e => e.preventDefault()); 
 
@@ -686,7 +712,6 @@
       }
     }, 1000);
 
-    // FIX: Skrip Anti-Tamper diubah agar tidak mereset localStorage seenaknya
     setInterval(function() {
       const copyrightEl = document.getElementById('digitalhub-copyright');
       if (!copyrightEl || !copyrightEl.innerText.includes("DigitalHub Store Manager") || copyrightEl.style.display === 'none' || copyrightEl.style.visibility === 'hidden') {
